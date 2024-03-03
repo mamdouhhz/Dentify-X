@@ -9,8 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func PsignupHandler(db *gorm.DB, c *gin.Context) {
-	if err := services.PatientSignup(db, c); err != nil {
+func DsignupHandler(db *gorm.DB, c *gin.Context) {
+	if err := services.DoctorSignupRequest(db, c); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("can't create this user: %v", err)})
 		return
 	}

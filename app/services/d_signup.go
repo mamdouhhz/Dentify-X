@@ -11,24 +11,29 @@ import (
 	"gorm.io/gorm"
 )
 
-func PatientSignup(db *gorm.DB, c *gin.Context) error {
-	var user models.Patient
-	var existingUser models.Patient
+func DoctorSignupRequest(db *gorm.DB, c *gin.Context) error {
+	var user models.DoctorRequests
+	var existingUser models.Doctor
+	var pendingUser models.DoctorRequests
 	var err error
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return err
 	}
-
 	fmt.Printf("User after ShouldBindJSON: %+v\n", user)
 
-	if err := db.Where("p_phone_number = ?", user.P_PhoneNumber).First(&existingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := db.Where("d_phone_number = ?", user.D_PhoneNumber).First(&existingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
 		return err
 	}
 
-	user.P_Password, err = hashing.HashPassword(user.P_Password)
+	if err := db.Where("d_phone_number = ?", user.D_PhoneNumber).First(&pendingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(http.StatusConflict, gin.H{"error": "you are still pending approval from our admins"})
+		return err
+	}
+
+	user.D_Password, err = hashing.HashPassword(user.D_Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return err

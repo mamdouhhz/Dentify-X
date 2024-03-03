@@ -14,5 +14,9 @@ func Rout(db *gorm.DB) *gin.Engine {
 		handlers.PsignupHandler(db, c)
 	})
 
+	r.POST("/dsignupreq", func(c *gin.Context) {
+		handlers.DsignupHandler(db, c)
+	})
+
 	return r
 }
