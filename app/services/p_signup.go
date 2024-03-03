@@ -20,7 +20,6 @@ func PatientSignup(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return err
 	}
-
 	fmt.Printf("User after ShouldBindJSON: %+v\n", user)
 
 	if err := db.Where("p_phone_number = ?", user.P_PhoneNumber).First(&existingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {

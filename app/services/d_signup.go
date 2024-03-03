@@ -27,7 +27,6 @@ func DoctorSignupRequest(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
 		return err
 	}
-
 	if err := db.Where("d_phone_number = ?", user.D_PhoneNumber).First(&pendingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusConflict, gin.H{"error": "you are still pending approval from our admins"})
 		return err

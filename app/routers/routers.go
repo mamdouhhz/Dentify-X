@@ -18,5 +18,9 @@ func Rout(db *gorm.DB) *gin.Engine {
 		handlers.DsignupHandler(db, c)
 	})
 
+	r.GET("/plogin", func(c *gin.Context) {
+		handlers.Ploginhandler(db, c)
+	})
+
 	return r
 }
