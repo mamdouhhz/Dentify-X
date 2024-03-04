@@ -9,6 +9,8 @@ import (
 
 func Rout(db *gorm.DB) *gin.Engine {
 	r := gin.Default()
+	// store := cookie.NewStore([]byte("secret"))
+	// r.Use(sessions.Sessions("mysession", store))
 
 	r.POST("/psignup", func(c *gin.Context) {
 		handlers.PsignupHandler(db, c)
@@ -18,7 +20,7 @@ func Rout(db *gorm.DB) *gin.Engine {
 		handlers.DsignupHandler(db, c)
 	})
 
-	r.GET("/plogin", func(c *gin.Context) {
+	r.POST("/plogin", func(c *gin.Context) {
 		handlers.Ploginhandler(db, c)
 	})
 

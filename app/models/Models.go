@@ -48,7 +48,7 @@ type Xray struct {
 	gorm.Model
 	XrayID    uint `gorm:"primary_key;autoIncrement" json:"xray_id"`
 	PatientID uint `gorm:"references:PatientID" json:"patient_id"` // not sure if it is a foreign key or a primary key.
-	// where are the images that are going to be stores ??
+	// where are the images that are going to be stored ??
 }
 
 type DoctorXray struct {
