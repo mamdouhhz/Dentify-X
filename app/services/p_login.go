@@ -5,15 +5,15 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
-var user models.Patient
-var existingUser models.Patient
-
 func PatientLogin(db *gorm.DB, c *gin.Context) error {
+	var user models.Patient
+	var existingUser models.Patient
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -33,30 +33,27 @@ func PatientLogin(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid password"})
 		return err
 	}
-	// session := sessions.Default(c)
-	// session.Set("pid", existingUser.PatientID)
+	session := sessions.Default(c)
+	session.Set("pid", existingUser.PatientID)
 
-	// if err := session.Save(); err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
-	// 	return err
-	// }
+	if err := session.Save(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
+		return err
+	}
+
 	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.P_Name})
-	GetMedicalHistory(db, c)
+	GetMedicalHistory(db, c, session)
 	return nil
 }
 
-func GetMedicalHistory(db *gorm.DB, c *gin.Context) {
-	// patientID, ok := c.Get("pid")
-	// c.JSON(http.StatusOK, gin.H{"value of PatientID after getting": patientID})
-
-	// if !ok {
-	// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-	// 	return
-	// }
+func GetMedicalHistory(db *gorm.DB, c *gin.Context, s sessions.Session) {
+	patientID := s.Get("pid")
+	if patientID == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+	}
 
 	var medicalHistory []models.DoctorXray
-
-	if err := db.Select("xray_id, prescription, date").Where("patient_id = ?", existingUser.PatientID).Find(&medicalHistory).Error; err != nil {
+	if err := db.Select("xray_id, prescription, date").Where("patient_id = ?", patientID).Find(&medicalHistory).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve medical history", "details": err.Error()})
 		return
 	}

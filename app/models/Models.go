@@ -34,7 +34,7 @@ type DoctorRequests struct {
 
 type Patient struct {
 	gorm.Model
-	PatientID      uint   `gorm:"primary_key;autoIncrement" json:"patient_id"`
+	PatientID      uint   `gorm:"primary_key;autoIncrement" json:"patient_id" unique:"true"`
 	Passcode       string `json:"passcode"`
 	MedicalHistory string `json:"medical_history"` // question.
 	P_Name         string `json:"name"`

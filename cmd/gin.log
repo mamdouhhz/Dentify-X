@@ -2,9 +2,10 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func1 (4 handlers)
-[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func2 (4 handlers)
-[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func3 (4 handlers)
+[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func1 (5 handlers)
+[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func2 (5 handlers)
+[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func3 (5 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :8080
+::1 - [Tue Mar  5 16:17:19 2024] POST /plogin 200 97.57075ms 
