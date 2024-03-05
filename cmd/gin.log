@@ -5,7 +5,25 @@
 [GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func1 (5 handlers)
 [GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func2 (5 handlers)
 [GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func3 (5 handlers)
+[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func4 (5 handlers)
+[GIN-debug] POST   /accept-request/:id       --> Dentify-X/app/routers.Rout.func5 (5 handlers)
+[GIN-debug] POST   /decline-request/:id      --> Dentify-X/app/routers.Rout.func6 (5 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :8080
-::1 - [Tue Mar  5 16:17:19 2024] POST /plogin 200 97.57075ms 
+::1 - [Tue Mar  5 20:44:28 2024] POST /accept-request/2 500 12.815542ms 
+::1 - [Tue Mar  5 20:44:29 2024] POST /accept-request/2 500 1.257333ms 
+::1 - [Tue Mar  5 20:44:31 2024] POST /accept-request/3 500 909.709µs 
+::1 - [Tue Mar  5 20:44:34 2024] POST /accept-request/5 500 11.464375ms 
+::1 - [Tue Mar  5 20:44:35 2024] POST /accept-request/5 500 970.375µs 
+::1 - [Tue Mar  5 20:44:35 2024] POST /accept-request/5 500 688.542µs 
+::1 - [Tue Mar  5 20:45:04 2024] POST /dsignupreq 200 102.493042ms 
+::1 - [Tue Mar  5 20:45:08 2024] POST /dsignupreq 200 100.887334ms 
+::1 - [Tue Mar  5 20:45:34 2024] POST /reject-request/4 404 94.292µs 
+::1 - [Tue Mar  5 20:45:39 2024] GET /reject-request/4 404 100.625µs 
+::1 - [Tue Mar  5 20:45:45 2024] POST /reject-request/4 404 79.416µs 
+::1 - [Tue Mar  5 20:46:00 2024] POST /decline-request/4 200 1.528584ms 
+::1 - [Tue Mar  5 20:46:49 2024] POST /accept-request/5 200 5.124125ms 
+::1 - [Tue Mar  5 20:48:13 2024] POST /dsignupreq 409 1.698625ms 
+::1 - [Tue Mar  5 20:48:14 2024] POST /dsignupreq 409 1.052834ms 
+::1 - [Tue Mar  5 20:48:35 2024] POST /dsignupreq 200 101.251084ms 

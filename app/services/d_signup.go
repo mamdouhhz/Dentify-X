@@ -4,7 +4,6 @@ import (
 	"Dentify-X/app/hashing"
 	"Dentify-X/app/models"
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,13 +20,12 @@ func DoctorSignupRequest(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return err
 	}
-	fmt.Printf("User after ShouldBindJSON: %+v\n", user)
 
-	if err := db.Where("d_phone_number = ?", user.D_PhoneNumber).First(&existingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := db.Where("mln = ?", user.MLN).First(&existingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
 		return err
 	}
-	if err := db.Where("d_phone_number = ?", user.D_PhoneNumber).First(&pendingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := db.Where("mln = ?", user.MLN).First(&pendingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusConflict, gin.H{"error": "you are still pending approval from our admins"})
 		return err
 	}

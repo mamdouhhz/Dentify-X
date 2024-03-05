@@ -8,7 +8,7 @@ import (
 
 type Doctor struct {
 	gorm.Model
-	DoctorID      uint   `gorm:"primary_key;autoIncrement" json:"doctor_id"`
+	DoctorID      uint   `gorm:"primary_key" json:"doctor_id"`
 	D_Name        string `json:"name"`
 	D_PhoneNumber string `json:"phone_number"`
 	D_Password    string `json:"password"`
@@ -58,4 +58,14 @@ type DoctorXray struct {
 	PatientID    uint      `gorm:"references:PatientID" json:"patient_id"`
 	Prescription string    `json:"prescription"` // not sure.
 	Date         time.Time `json:"date"`         // not sure.
+}
+
+type Admin struct {
+	gorm.Model
+	AdminID       uint   `gorm:"primary_key;autoIncrement" json:"id" unique:"true"`
+	A_Name        string `json:"name"`
+	A_password    string `json:"password"`
+	A_gender      string `json:"gender"`
+	A_PhoneNumber string `json:"phone_number"`
+	A_Email       string `json:"email"`
 }
