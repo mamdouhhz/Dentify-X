@@ -2,13 +2,17 @@ package routers
 
 import (
 	"Dentify-X/app/handlers"
+	"Dentify-X/app/middleware"
 
 	"github.com/gin-gonic/gin"
+	gindump "github.com/tpkeeper/gin-dump"
 	"gorm.io/gorm"
 )
 
 func Rout(db *gorm.DB) *gin.Engine {
-	r := gin.Default()
+	middleware.SaveLogs()
+	r := gin.New()
+	r.Use(gin.Recovery(), middleware.Logger(), gindump.Dump())
 	// store := cookie.NewStore([]byte("secret"))
 	// r.Use(sessions.Sessions("mysession", store))
 

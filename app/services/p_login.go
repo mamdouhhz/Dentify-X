@@ -33,8 +33,6 @@ func PatientLogin(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid password"})
 		return err
 	}
-	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.P_Name})
-
 	// session := sessions.Default(c)
 	// session.Set("pid", existingUser.PatientID)
 
@@ -42,9 +40,7 @@ func PatientLogin(db *gorm.DB, c *gin.Context) error {
 	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 	// 	return err
 	// }
-	// c.JSON(http.StatusOK, gin.H{"value of PatientID after saving the session": existingUser.PatientID})
-	// GetMedicalHistory(db, c)
-
+	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.P_Name})
 	GetMedicalHistory(db, c)
 	return nil
 }
