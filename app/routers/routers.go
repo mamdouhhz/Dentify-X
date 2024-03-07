@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,11 @@ func Rout(db *gorm.DB) *gin.Engine {
 
 	r := gin.New()
 	r.Use(gin.Recovery(), middleware.Logger(), gindump.Dump())
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	config.AllowMethods = []string{"GET", "POST"}
+	r.Use(cors.New(config))
 
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("mysession", store))
@@ -37,6 +43,10 @@ func Rout(db *gorm.DB) *gin.Engine {
 
 	r.POST("/alogin", func(c *gin.Context) {
 		handlers.Aloginhandler(db, c)
+	})
+
+	r.GET("/getrequests", func(c *gin.Context) {
+		services.GetDoctorRequests(db, c)
 	})
 
 	r.POST("/accept-request/:id", func(c *gin.Context) {

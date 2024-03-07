@@ -42,16 +42,10 @@ func AdminLogin(db *gorm.DB, c *gin.Context) error {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.A_Name})
-	GetDoctorRequests(db, c, session)
 	return nil
 }
 
-func GetDoctorRequests(db *gorm.DB, c *gin.Context, s sessions.Session) {
-	adminID := s.Get("aid")
-	if adminID == nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized user"})
-	}
-
+func GetDoctorRequests(db *gorm.DB, c *gin.Context) {
 	var DoctorRequests []models.DoctorRequests
 	if err := db.Find(&DoctorRequests).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve doctor requests", "details": err.Error()})
