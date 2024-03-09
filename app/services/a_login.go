@@ -12,15 +12,15 @@ import (
 )
 
 func AdminLogin(db *gorm.DB, c *gin.Context) error {
-	var user models.Admin
-	var existingUser models.Admin
+	var admin models.Admin
+	var existingAdmin models.Admin
 
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if err := c.ShouldBindJSON(&admin); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return err
 	}
 
-	if err := db.Where("a_email = ?", user.A_Email).First(&existingUser).Error; err != nil {
+	if err := db.Where("a_email = ?", admin.A_Email).First(&existingAdmin).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "you are not a regiistered admin"})
 		} else {
@@ -29,19 +29,18 @@ func AdminLogin(db *gorm.DB, c *gin.Context) error {
 		return err
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(existingUser.A_password), []byte(user.A_password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(existingAdmin.A_password), []byte(admin.A_password)); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid password"})
 		return err
 	}
 	session := sessions.Default(c)
-	session.Set("aid", existingUser.AdminID)
+	session.Set("aid", existingAdmin.AdminID)
 
 	if err := session.Save(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return err
 	}
-
-	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.A_Name})
+	c.JSON(http.StatusOK, gin.H{"welcome": existingAdmin.A_Name})
 	return nil
 }
 

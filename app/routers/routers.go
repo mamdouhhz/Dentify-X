@@ -29,26 +29,32 @@ func Rout(db *gorm.DB) *gin.Engine {
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("mysession", store))
 
-	r.POST("/psignup", func(c *gin.Context) {
-		handlers.PsignupHandler(db, c)
-	})
-
+	// Doctor
 	r.POST("/dsignupreq", func(c *gin.Context) {
 		handlers.DsignupHandler(db, c)
 	})
+	r.POST("/dlogin", func(c *gin.Context) {
+		handlers.Dloginhandler(db, c)
+	})
+	r.POST("/addpatient", func(c *gin.Context) {
+		services.AddPatient(db, c)
+	})
 
+	// Patient
+	r.POST("/psignup", func(c *gin.Context) {
+		handlers.PsignupHandler(db, c)
+	})
 	r.POST("/plogin", func(c *gin.Context) {
 		handlers.Ploginhandler(db, c)
 	})
 
+	// Admin
 	r.POST("/alogin", func(c *gin.Context) {
 		handlers.Aloginhandler(db, c)
 	})
-
 	r.GET("/getrequests", func(c *gin.Context) {
 		services.GetDoctorRequests(db, c)
 	})
-
 	r.POST("/accept-request/:id", func(c *gin.Context) {
 		doctorRequestID := c.Param("id")
 		idUint, err := strconv.ParseUint(doctorRequestID, 10, 64)
@@ -58,7 +64,6 @@ func Rout(db *gorm.DB) *gin.Engine {
 		}
 		services.AcceptDoctorRequest(db, c, uint(idUint))
 	})
-
 	r.POST("/decline-request/:id", func(c *gin.Context) {
 		doctorRequestID := c.Param("id")
 		idUint, err := strconv.ParseUint(doctorRequestID, 10, 64)

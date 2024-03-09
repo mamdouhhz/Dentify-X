@@ -25,10 +25,10 @@ type DoctorRequests struct {
 	DoctorID      uint   `gorm:"primary_key;autoIncrement" json:"doctor_id"`
 	D_Name        string `json:"name"`
 	D_PhoneNumber string `json:"phone_number"`
-	D_Password    string `json:"password"`
+	D_Password    string `json:"d_password"`
 	MLN           string `json:"mln"`
 	D_Gender      string `json:"gender"`
-	D_Email       string `json:"email"`
+	D_Email       string `json:"d_email"`
 	ClinicAddress string `json:"clinic_address"`
 }
 
