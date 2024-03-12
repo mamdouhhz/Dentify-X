@@ -5,6 +5,7 @@ import (
 	"Dentify-X/app/routers"
 	"fmt"
 	"log"
+	"net/http"
 )
 
 func main() {
@@ -17,9 +18,10 @@ func main() {
 
 	r := routers.Rout(db)
 
-	err = r.Run(":8080")
+	// openssl ecparam -name prime256v1 -genkey -noout -out server.key
+	// openssl req -x509 -new -key server.key -out server.crt -days 365
+	err = http.ListenAndServeTLS(":443", "server.crt", "server.key", r)
 	if err != nil {
-		return
+		log.Fatal("Error running server:", err)
 	}
-	log.Println("SERVER RUNNING ON 8080")
 }

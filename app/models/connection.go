@@ -11,7 +11,6 @@ func InitDB() (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.AutoMigrate(&Doctor{}, &Patient{}, &Xray{}, &DoctorXray{}, &DoctorRequests{}, &Admin{})
-
+	db.AutoMigrate(&Doctor{}, &DoctorRequests{}, &Patient{}, &DoctorPatient{}, &Xray{}, &DoctorXray{}, &Admin{})
 	return db, nil
 }

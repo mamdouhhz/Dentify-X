@@ -29,6 +29,11 @@ func Rout(db *gorm.DB) *gin.Engine {
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("mysession", store))
 
+	// Root path
+	r.GET("/", func(c *gin.Context) {
+		c.String(200, "Welcome to Dentify-X!")
+	})
+
 	// Doctor
 	r.POST("/dsignupreq", func(c *gin.Context) {
 		handlers.DsignupHandler(db, c)

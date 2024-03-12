@@ -2,20 +2,17 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func1 (6 handlers)
-[GIN-debug] POST   /dlogin                   --> Dentify-X/app/routers.Rout.func2 (6 handlers)
-[GIN-debug] POST   /addpatient               --> Dentify-X/app/routers.Rout.func3 (6 handlers)
-[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func4 (6 handlers)
-[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func5 (6 handlers)
-[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func6 (6 handlers)
-[GIN-debug] GET    /getrequests              --> Dentify-X/app/routers.Rout.func7 (6 handlers)
-[GIN-debug] POST   /accept-request/:id       --> Dentify-X/app/routers.Rout.func8 (6 handlers)
-[GIN-debug] POST   /decline-request/:id      --> Dentify-X/app/routers.Rout.func9 (6 handlers)
-[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
-Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
-[GIN-debug] Listening and serving HTTP on :8080
-::1 - [Sat Mar  9 02:24:32 2024] POST /dlogin 200 108.669291ms 
-[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
-::1 - [Sat Mar  9 02:24:38 2024] POST /dlogin 200 1.201125ms 
-[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 500
-::1 - [Sat Mar  9 02:24:39 2024] POST /dlogin 200 959.958µs 
+[GIN-debug] GET    /                         --> Dentify-X/app/routers.Rout.func1 (6 handlers)
+[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func2 (6 handlers)
+[GIN-debug] POST   /dlogin                   --> Dentify-X/app/routers.Rout.func3 (6 handlers)
+[GIN-debug] POST   /addpatient               --> Dentify-X/app/routers.Rout.func4 (6 handlers)
+[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func5 (6 handlers)
+[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func6 (6 handlers)
+[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func7 (6 handlers)
+[GIN-debug] GET    /getrequests              --> Dentify-X/app/routers.Rout.func8 (6 handlers)
+[GIN-debug] POST   /accept-request/:id       --> Dentify-X/app/routers.Rout.func9 (6 handlers)
+[GIN-debug] POST   /decline-request/:id      --> Dentify-X/app/routers.Rout.func10 (6 handlers)
+::1 - [Mon Mar 11 23:33:07 2024] POST /dsignupreq 409 2.877208ms 
+::1 - [Mon Mar 11 23:33:08 2024] POST /dsignupreq 409 853.125µs 
+::1 - [Mon Mar 11 23:33:12 2024] POST /dsignupreq 409 682µs 
+::1 - [Mon Mar 11 23:33:13 2024] POST /dsignupreq 409 1.000417ms 

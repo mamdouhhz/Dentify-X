@@ -18,8 +18,6 @@ type Doctor struct {
 	ClinicAddress string `json:"clinic_address"`
 }
 
-// for the admin to view this table to accpet or decline.
-// if accepted, the record is inserted into Doctor table.
 type DoctorRequests struct {
 	gorm.Model
 	DoctorID      uint   `gorm:"primary_key;autoIncrement" json:"doctor_id"`
@@ -34,21 +32,26 @@ type DoctorRequests struct {
 
 type Patient struct {
 	gorm.Model
-	PatientID      uint   `gorm:"primary_key;autoIncrement" json:"patient_id" unique:"true"`
-	Passcode       string `json:"passcode"`
-	MedicalHistory string `json:"medical_history"` // question.
-	P_Name         string `json:"name"`
-	P_Gender       string `json:"gender"`
-	P_PhoneNumber  string `json:"phone_number"`
-	P_Email        string `json:"email"`
-	P_Password     string `json:"password"`
+	PatientID uint   `gorm:"primary_key;autoIncrement" json:"patient_id" unique:"true"`
+	Passcode  string `json:"passcode"`
+	//MedicalHistory []DoctorXray `json:"medical_history"` // question.
+	P_Name        string `json:"name"`
+	P_Gender      string `json:"gender"`
+	P_PhoneNumber string `json:"phone_number"`
+	P_Email       string `json:"email"`
+	P_Password    string `json:"password"`
+}
+
+type DoctorPatient struct {
+	DoctorID  uint `gorm:"references:DoctorID" json:"doctor_id"`
+	PatientID uint `gorm:"references:PatientID" json:"patient_id"`
 }
 
 type Xray struct {
 	gorm.Model
-	XrayID    uint `gorm:"primary_key;autoIncrement" json:"xray_id"`
-	PatientID uint `gorm:"references:PatientID" json:"patient_id"` // not sure if it is a foreign key or a primary key.
-	// where are the images that are going to be stored ??
+	XrayID    uint   `gorm:"primary_key;autoIncrement" json:"xray_id"`
+	PatientID uint   `gorm:"references:PatientID" json:"patient_id"` // not sure if it is a foreign key or a primary key.
+	XrayImage []byte `json:"xray_image"`
 }
 
 type DoctorXray struct {
@@ -56,8 +59,8 @@ type DoctorXray struct {
 	DoctorID     uint      `gorm:"references:DoctorID" json:"doctor_id"`
 	XrayID       uint      `gorm:"references:XrayID" json:"xray_id"`
 	PatientID    uint      `gorm:"references:PatientID" json:"patient_id"`
-	Prescription string    `json:"prescription"` // not sure.
-	Date         time.Time `json:"date"`         // not sure.
+	Prescription string    `json:"prescription"`
+	Date         time.Time `json:"date"`
 }
 
 type Admin struct {
