@@ -1,6 +1,7 @@
 package services
 
 import (
+	"Dentify-X/app/email"
 	"Dentify-X/app/hashing"
 	"Dentify-X/app/models"
 	"errors"
@@ -42,6 +43,7 @@ func DoctorSignupRequest(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return err
 	}
+	email.DoctorConfirmationEmail(user.D_Email, user.D_Name, c)
 	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
 	return nil
 }

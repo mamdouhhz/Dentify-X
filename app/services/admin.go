@@ -1,6 +1,7 @@
 package services
 
 import (
+	"Dentify-X/app/email"
 	"Dentify-X/app/models"
 	"errors"
 	"net/http"
@@ -80,6 +81,7 @@ func AcceptDoctorRequest(db *gorm.DB, c *gin.Context, doctorRequestID uint) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete doctor request", "details": err.Error()})
 		return
 	}
+	email.DoctorAcceptanceEmail(doctorRequest.D_Email, doctorRequest.D_Name, c)
 	c.JSON(http.StatusOK, gin.H{"message": "Doctor request accepted and recored removed from requests"})
 }
 
@@ -94,5 +96,6 @@ func DeclineDoctorRequest(db *gorm.DB, c *gin.Context, doctorID uint) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete doctor request", "details": err.Error()})
 		return
 	}
+	email.DoctorRejectionEmail(doctorRequest.D_Email, doctorRequest.D_Name, c)
 	c.JSON(http.StatusOK, gin.H{"message": "Doctor request declined and record deleted"})
 }

@@ -1,6 +1,7 @@
 package services
 
 import (
+	"Dentify-X/app/email"
 	"Dentify-X/app/hashing"
 	"Dentify-X/app/models"
 	"errors"
@@ -24,7 +25,7 @@ func PatientSignup(db *gorm.DB, c *gin.Context) error {
 	}
 	fmt.Printf("User after ShouldBindJSON: %+v\n", user)
 
-	if err := db.Where("p_phone_number = ?", user.P_PhoneNumber).First(&existingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := db.Where("p_email = ?", user.P_Email).First(&existingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
 		return err
 	}
@@ -39,6 +40,7 @@ func PatientSignup(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return err
 	}
+	email.PatientConfirmationEmail(user.P_Email, user.P_Name, user.Passcode, c)
 	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
 	return nil
 }
