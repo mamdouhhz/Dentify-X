@@ -11,14 +11,14 @@ import (
 func PatientConfirmationEmail(email string, name string, pass string, c *gin.Context) {
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", "mamdouhhazemm@gmail.com")
+	m.SetHeader("From", "dentifyx24@gmail.com")
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Test Email")
 
 	messageBody := "Welcome " + name + " to Dentify-X, this is your confirmation email, your passcode: " + pass
 	m.SetBody("text/plain", messageBody)
 
-	d := gomail.NewDialer("smtp.gmail.com", 587, "mamdouhhazemm@gmail.com", "vagk lxwa hiqx sgsq")
+	d := gomail.NewDialer("smtp.gmail.com", 587, "dentifyx24@gmail.com", "yyyx rysz tgef bxik")
 	//d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	if err := d.DialAndSend(m); err != nil {
@@ -33,14 +33,14 @@ func PatientConfirmationEmail(email string, name string, pass string, c *gin.Con
 func DoctorConfirmationEmail(email string, name string, c *gin.Context) {
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", "mamdouhhazemm@gmail.com")
+	m.SetHeader("From", "dentifyx24@gmail.com")
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Test Email")
 
 	messageBody := "Welcome " + name + " to Dentify-X, your are pending approval from our admins"
 	m.SetBody("text/plain", messageBody)
 
-	d := gomail.NewDialer("smtp.gmail.com", 587, "mamdouhhazemm@gmail.com", "vagk lxwa hiqx sgsq")
+	d := gomail.NewDialer("smtp.gmail.com", 587, "dentifyx24@gmail.com", "yyyx rysz tgef bxik")
 	//d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	if err := d.DialAndSend(m); err != nil {
@@ -55,14 +55,14 @@ func DoctorConfirmationEmail(email string, name string, c *gin.Context) {
 func DoctorAcceptanceEmail(email string, name string, c *gin.Context) {
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", "mamdouhhazemm@gmail.com")
+	m.SetHeader("From", "dentifyx24@gmail.com")
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Test Email")
 
 	messageBody := "hi dr " + name + " you can now login to our system"
 	m.SetBody("text/plain", messageBody)
 
-	d := gomail.NewDialer("smtp.gmail.com", 587, "mamdouhhazemm@gmail.com", "vagk lxwa hiqx sgsq")
+	d := gomail.NewDialer("smtp.gmail.com", 587, "dentifyx24@gmail.com", "yyyx rysz tgef bxik")
 	//d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	if err := d.DialAndSend(m); err != nil {
@@ -77,14 +77,14 @@ func DoctorAcceptanceEmail(email string, name string, c *gin.Context) {
 func DoctorRejectionEmail(email string, name string, c *gin.Context) {
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", "mamdouhhazemm@gmail.com")
+	m.SetHeader("From", "dentifyx24@gmail.com")
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Test Email")
 
 	messageBody := "hi " + name + " you are rejected"
 	m.SetBody("text/plain", messageBody)
 
-	d := gomail.NewDialer("smtp.gmail.com", 587, "mamdouhhazemm@gmail.com", "vagk lxwa hiqx sgsq")
+	d := gomail.NewDialer("smtp.gmail.com", 587, "dentifyx24@gmail.com", "yyyx rysz tgef bxik")
 	//d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	if err := d.DialAndSend(m); err != nil {
