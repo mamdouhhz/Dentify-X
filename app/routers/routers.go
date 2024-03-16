@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"Dentify-X/app/email"
 	"Dentify-X/app/handlers"
 	"Dentify-X/app/middleware"
 	"Dentify-X/app/services"
@@ -32,6 +33,9 @@ func Rout(db *gorm.DB) *gin.Engine {
 	// Root path
 	r.GET("/", func(c *gin.Context) {
 		c.String(200, "Welcome to Dentify-X!")
+	})
+	r.POST("/resetpassemail/:email", func(c *gin.Context) {
+		email.EmailForgetPassword(db, c)
 	})
 
 	// Doctor
@@ -78,6 +82,5 @@ func Rout(db *gorm.DB) *gin.Engine {
 		}
 		services.DeclineDoctorRequest(db, c, uint(idUint))
 	})
-
 	return r
 }

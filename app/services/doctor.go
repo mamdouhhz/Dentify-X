@@ -146,6 +146,25 @@ func AddPatient(db *gorm.DB, c *gin.Context) error {
 	return nil
 }
 
-// func uploadXray(db* gorm.DB, c *gin.Context) error {
+func DoctorConfirmPasswordReset(email string, db *gorm.DB, c *gin.Context) {
+	var doctor models.Doctor
+	password := c.Param("password")
+	confirmpassword := c.Param("confirmpassword")
 
-// }
+	if err := db.Where("d_email = ?", email).First(&doctor).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Doctor not found"})
+		return
+	}
+
+	if password != confirmpassword {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Passwords do not match"})
+		return
+	}
+
+	doctor.D_Password = password
+	if err := db.Save(&doctor).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update password"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Password updated successfully"})
+}

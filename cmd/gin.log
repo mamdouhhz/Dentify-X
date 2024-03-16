@@ -3,16 +3,14 @@
  - using code:	gin.SetMode(gin.ReleaseMode)
 
 [GIN-debug] GET    /                         --> Dentify-X/app/routers.Rout.func1 (6 handlers)
-[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func2 (6 handlers)
-[GIN-debug] POST   /dlogin                   --> Dentify-X/app/routers.Rout.func3 (6 handlers)
-[GIN-debug] POST   /addpatient               --> Dentify-X/app/routers.Rout.func4 (6 handlers)
-[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func5 (6 handlers)
-[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func6 (6 handlers)
-[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func7 (6 handlers)
-[GIN-debug] GET    /getrequests              --> Dentify-X/app/routers.Rout.func8 (6 handlers)
-[GIN-debug] POST   /accept-request/:id       --> Dentify-X/app/routers.Rout.func9 (6 handlers)
-[GIN-debug] POST   /decline-request/:id      --> Dentify-X/app/routers.Rout.func10 (6 handlers)
-::1 - [Wed Mar 13 17:31:48 2024] POST /accept-request/13 500 2.58ms 
-::1 - [Wed Mar 13 17:31:55 2024] POST /accept-request/:13 400 110.375µs 
-::1 - [Wed Mar 13 17:32:07 2024] POST /accept-request/:14 400 215.208µs 
-::1 - [Wed Mar 13 17:32:12 2024] POST /accept-request/14 200 2.318789291s 
+[GIN-debug] POST   /resetpassemail/:email    --> Dentify-X/app/routers.Rout.func2 (6 handlers)
+[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func3 (6 handlers)
+[GIN-debug] POST   /dlogin                   --> Dentify-X/app/routers.Rout.func4 (6 handlers)
+[GIN-debug] POST   /addpatient               --> Dentify-X/app/routers.Rout.func5 (6 handlers)
+[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func6 (6 handlers)
+[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func7 (6 handlers)
+[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func8 (6 handlers)
+[GIN-debug] GET    /getrequests              --> Dentify-X/app/routers.Rout.func9 (6 handlers)
+[GIN-debug] POST   /accept-request/:id       --> Dentify-X/app/routers.Rout.func10 (6 handlers)
+[GIN-debug] POST   /decline-request/:id      --> Dentify-X/app/routers.Rout.func11 (6 handlers)
+::1 - [Sat Mar 16 13:16:33 2024] POST /resetpassemail/mamdouhhazemm@gmail.com 200 1.530789458s 

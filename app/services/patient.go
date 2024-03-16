@@ -93,3 +93,26 @@ func GetMedicalHistory(db *gorm.DB, c *gin.Context, s sessions.Session) {
 	}
 	c.JSON(http.StatusOK, gin.H{"medicalHistory": medicalHistory})
 }
+
+func PatientConfirmPasswordReset(email string, db *gorm.DB, c *gin.Context) {
+	var patient models.Patient
+	password := c.Param("password")
+	confirmpassword := c.Param("confirmpassword")
+
+	if err := db.Where("p_email = ?", email).First(&patient).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Doctor not found"})
+		return
+	}
+
+	if password != confirmpassword {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Passwords do not match"})
+		return
+	}
+
+	patient.P_Password = password
+	if err := db.Save(&patient).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update password"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Password updated successfully"})
+}
