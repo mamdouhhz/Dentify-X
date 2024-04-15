@@ -6,6 +6,8 @@ import (
 	"Dentify-X/app/models"
 	"errors"
 	"net/http"
+	"os/exec"
+	"path/filepath"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -144,6 +146,48 @@ func AddPatient(db *gorm.DB, c *gin.Context) error {
 
 	c.JSON(http.StatusOK, gin.H{"message": "patient record added successfully to DoctorPatient"})
 	return nil
+}
+
+func ViewPatientHistory(db *gorm.DB, c *gin.Context) {
+	patientID := c.Param("pid")
+	var medicalHistory models.DoctorXray
+
+	if err := db.Select("xray_id, prescription, date").Where("patient_id = ?", patientID).Find(&medicalHistory).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve medical history", "details": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"medicalHistory": medicalHistory})
+	// na2esha validation: patient is assigned to doctor or not.
+}
+
+func UploadXray(c *gin.Context) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to retrieve file from request"})
+		return
+	}
+
+	ext := filepath.Ext(file.Filename)
+	allowedExts := map[string]bool{".jpg": true, ".png": true, ".bmp": true, ".tiff": true}
+	if !allowedExts[ext] {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid file type. Only JPG, PNG, BMP, and TIFF files are allowed."})
+		return
+	}
+
+	savePath := "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/cmd/" + file.Filename
+	if err := c.SaveUploadedFile(file, savePath); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save uploaded file"})
+		return
+	}
+
+	cmd := exec.Command("python", "/Users/mamdouhhazem/yolov5/detect.py", "--weights", "/Users/mamdouhhazem/yolov5/yolov5s.pt", "--img", "2880", "1344", "--source", savePath)
+	//cmd := exec.Command("python", "/Users/mamdouhhazem/yolov5/detect.py", "--weights", "/Users/mamdouhhazem/yolov5/runs/train/exp29/weights/best.pt", "--img", "2880", "1344", "--source", savePath)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to perform inference", "details": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"detections": string(out)})
 }
 
 func DoctorConfirmPasswordReset(email string, db *gorm.DB, c *gin.Context) {

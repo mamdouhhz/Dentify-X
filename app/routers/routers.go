@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -18,23 +17,18 @@ import (
 
 func Rout(db *gorm.DB) *gin.Engine {
 	middleware.SaveLogs()
-
 	r := gin.New()
 	r.Use(gin.Recovery(), middleware.Logger(), gindump.Dump())
 
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:3000"}
-	config.AllowMethods = []string{"GET", "POST"}
-	r.Use(cors.New(config))
+	// config := cors.DefaultConfig()
+	// config.AllowOrigins = []string{"http://localhost:3000"}
+	// config.AllowMethods = []string{"GET", "POST"}
+	// r.Use(cors.New(config))
 
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("mysession", store))
 
-	// Root path
-	r.GET("/", func(c *gin.Context) {
-		c.String(200, "Welcome to Dentify-X!")
-	})
-	r.POST("/resetpassemail/:email", func(c *gin.Context) {
+	r.POST("/resetPassConfEmail/:email", func(c *gin.Context) {
 		email.EmailForgetPassword(db, c)
 	})
 
@@ -48,6 +42,9 @@ func Rout(db *gorm.DB) *gin.Engine {
 	r.POST("/addpatient", func(c *gin.Context) {
 		services.AddPatient(db, c)
 	})
+	r.POST("/upload", func(c *gin.Context) {
+		services.UploadXray(c)
+	})
 
 	// Patient
 	r.POST("/psignup", func(c *gin.Context) {
@@ -60,9 +57,6 @@ func Rout(db *gorm.DB) *gin.Engine {
 	// Admin
 	r.POST("/alogin", func(c *gin.Context) {
 		handlers.Aloginhandler(db, c)
-	})
-	r.GET("/getrequests", func(c *gin.Context) {
-		services.GetDoctorRequests(db, c)
 	})
 	r.POST("/accept-request/:id", func(c *gin.Context) {
 		doctorRequestID := c.Param("id")

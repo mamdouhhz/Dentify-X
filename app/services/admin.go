@@ -41,7 +41,9 @@ func AdminLogin(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return err
 	}
+	//	c.JSON(http.StatusOK, gin.H{"the session id is: ": existingAdmin.AdminID})
 	c.JSON(http.StatusOK, gin.H{"welcome": existingAdmin.A_Name})
+	GetDoctorRequests(db, c)
 	return nil
 }
 
@@ -51,7 +53,7 @@ func GetDoctorRequests(db *gorm.DB, c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve doctor requests", "details": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"doctor requests": DoctorRequests})
+	c.JSON(http.StatusOK, gin.H{"doctor requests: ": DoctorRequests})
 }
 
 func AcceptDoctorRequest(db *gorm.DB, c *gin.Context, doctorRequestID uint) {
@@ -82,7 +84,7 @@ func AcceptDoctorRequest(db *gorm.DB, c *gin.Context, doctorRequestID uint) {
 		return
 	}
 	email.DoctorAcceptanceEmail(doctorRequest.D_Email, doctorRequest.D_Name, c)
-	c.JSON(http.StatusOK, gin.H{"message": "Doctor request accepted and recored removed from requests"})
+	c.JSON(http.StatusOK, gin.H{"message": "Doctor request accepted and recored removed from requests and added to permenant doctors"})
 }
 
 func DeclineDoctorRequest(db *gorm.DB, c *gin.Context, doctorID uint) {

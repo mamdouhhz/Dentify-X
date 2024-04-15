@@ -2,15 +2,18 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /                         --> Dentify-X/app/routers.Rout.func1 (6 handlers)
-[GIN-debug] POST   /resetpassemail/:email    --> Dentify-X/app/routers.Rout.func2 (6 handlers)
-[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func3 (6 handlers)
-[GIN-debug] POST   /dlogin                   --> Dentify-X/app/routers.Rout.func4 (6 handlers)
-[GIN-debug] POST   /addpatient               --> Dentify-X/app/routers.Rout.func5 (6 handlers)
-[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func6 (6 handlers)
-[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func7 (6 handlers)
-[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func8 (6 handlers)
-[GIN-debug] GET    /getrequests              --> Dentify-X/app/routers.Rout.func9 (6 handlers)
-[GIN-debug] POST   /accept-request/:id       --> Dentify-X/app/routers.Rout.func10 (6 handlers)
-[GIN-debug] POST   /decline-request/:id      --> Dentify-X/app/routers.Rout.func11 (6 handlers)
-::1 - [Sat Mar 16 13:16:33 2024] POST /resetpassemail/mamdouhhazemm@gmail.com 200 1.530789458s 
+[GIN-debug] POST   /resetPassConfEmail/:email --> Dentify-X/app/routers.Rout.func1 (5 handlers)
+[GIN-debug] POST   /dsignupreq               --> Dentify-X/app/routers.Rout.func2 (5 handlers)
+[GIN-debug] POST   /dlogin                   --> Dentify-X/app/routers.Rout.func3 (5 handlers)
+[GIN-debug] POST   /addpatient               --> Dentify-X/app/routers.Rout.func4 (5 handlers)
+[GIN-debug] POST   /upload                   --> Dentify-X/app/routers.Rout.func5 (5 handlers)
+[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func6 (5 handlers)
+[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func7 (5 handlers)
+[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func8 (5 handlers)
+[GIN-debug] POST   /accept-request/:id       --> Dentify-X/app/routers.Rout.func9 (5 handlers)
+[GIN-debug] POST   /decline-request/:id      --> Dentify-X/app/routers.Rout.func10 (5 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Environment variable PORT is undefined. Using port :8080 by default
+[GIN-debug] Listening and serving HTTP on :8080
+::1 - [Mon Apr 15 23:14:52 2024] POST /upload 200 4.366915167s 

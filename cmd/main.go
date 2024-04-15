@@ -4,8 +4,6 @@ import (
 	"Dentify-X/app/models"
 	"Dentify-X/app/routers"
 	"fmt"
-	"log"
-	"net/http"
 )
 
 func main() {
@@ -20,8 +18,9 @@ func main() {
 
 	// openssl ecparam -name prime256v1 -genkey -noout -out server.key
 	// openssl req -x509 -new -key server.key -out server.crt -days 365
-	err = http.ListenAndServeTLS(":443", "server.crt", "server.key", r)
-	if err != nil {
-		log.Fatal("Error running server:", err)
-	}
+	// err = http.ListenAndServeTLS(":443", "server.crt", "server.key", r)
+	// if err != nil {
+	// 	log.Fatal("Error running server:", err)
+	// }
+	r.Run()
 }
