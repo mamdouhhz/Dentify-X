@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func PatientConfirmationEmail(email string, name string, pass string, c *gin.Context) {
+func PatientWelcomeEmail(email string, name string, pass string, c *gin.Context) {
 	m := gomail.NewMessage()
 
 	m.SetHeader("From", "dentifyx24@gmail.com")
@@ -32,7 +32,7 @@ func PatientConfirmationEmail(email string, name string, pass string, c *gin.Con
 	c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
 }
 
-func DoctorConfirmationEmail(email string, name string, c *gin.Context) {
+func DoctorWelcomeEmail(email string, name string, c *gin.Context) {
 	m := gomail.NewMessage()
 
 	m.SetHeader("From", "dentifyx24@gmail.com")

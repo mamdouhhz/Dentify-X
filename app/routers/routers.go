@@ -3,11 +3,12 @@ package routers
 import (
 	"Dentify-X/app/email"
 	"Dentify-X/app/handlers"
-	"Dentify-X/app/middleware"
+	"Dentify-X/app/middlewares"
 	"Dentify-X/app/services"
 	"net/http"
 	"strconv"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -16,14 +17,14 @@ import (
 )
 
 func Rout(db *gorm.DB) *gin.Engine {
-	middleware.SaveLogs()
+	middlewares.SaveLogs()
 	r := gin.New()
-	r.Use(gin.Recovery(), middleware.Logger(), gindump.Dump())
+	r.Use(gin.Recovery(), middlewares.Logger(), gindump.Dump())
 
-	// config := cors.DefaultConfig()
-	// config.AllowOrigins = []string{"http://localhost:3000"}
-	// config.AllowMethods = []string{"GET", "POST"}
-	// r.Use(cors.New(config))
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	config.AllowMethods = []string{"GET", "POST"}
+	r.Use(cors.New(config))
 
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("mysession", store))
@@ -58,8 +59,17 @@ func Rout(db *gorm.DB) *gin.Engine {
 	r.POST("/alogin", func(c *gin.Context) {
 		handlers.Aloginhandler(db, c)
 	})
-	r.POST("/accept-request/:id", func(c *gin.Context) {
-		doctorRequestID := c.Param("id")
+	r.GET("/doctors", func(c *gin.Context) {
+		services.GetDoctors(db, c)
+	})
+	r.GET("/patients", func(c *gin.Context) {
+		services.GetPatients(db, c)
+	})
+	r.GET("/Requests", func(c *gin.Context) {
+		services.GetDoctorRequests(db, c)
+	})
+	r.POST("/accept-request", func(c *gin.Context) {
+		doctorRequestID := c.PostForm("doctorRequestIDaccept")
 		idUint, err := strconv.ParseUint(doctorRequestID, 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid doctorRequestID"})
@@ -67,8 +77,9 @@ func Rout(db *gorm.DB) *gin.Engine {
 		}
 		services.AcceptDoctorRequest(db, c, uint(idUint))
 	})
-	r.POST("/decline-request/:id", func(c *gin.Context) {
-		doctorRequestID := c.Param("id")
+
+	r.POST("/decline-request", func(c *gin.Context) {
+		doctorRequestID := c.PostForm("doctorRequestIDreject")
 		idUint, err := strconv.ParseUint(doctorRequestID, 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid doctorRequestID"})

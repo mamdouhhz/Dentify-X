@@ -40,7 +40,7 @@ func PatientSignup(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return err
 	}
-	email.PatientConfirmationEmail(user.P_Email, user.P_Name, user.Passcode, c)
+	email.PatientWelcomeEmail(user.P_Email, user.P_Name, user.Passcode, c)
 	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
 	return nil
 }
@@ -100,7 +100,7 @@ func PatientConfirmPasswordReset(email string, db *gorm.DB, c *gin.Context) {
 	confirmpassword := c.Param("confirmpassword")
 
 	if err := db.Where("p_email = ?", email).First(&patient).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Doctor not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found, wrong email"})
 		return
 	}
 

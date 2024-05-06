@@ -45,7 +45,7 @@ func DoctorSignupRequest(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return err
 	}
-	email.DoctorConfirmationEmail(user.D_Email, user.D_Name, c)
+	email.DoctorWelcomeEmail(user.D_Email, user.D_Name, c)
 	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
 	return nil
 }
@@ -180,8 +180,7 @@ func UploadXray(c *gin.Context) {
 		return
 	}
 
-	cmd := exec.Command("python", "/Users/mamdouhhazem/yolov5/detect.py", "--weights", "/Users/mamdouhhazem/yolov5/yolov5s.pt", "--img", "2880", "1344", "--source", savePath)
-	//cmd := exec.Command("python", "/Users/mamdouhhazem/yolov5/detect.py", "--weights", "/Users/mamdouhhazem/yolov5/runs/train/exp29/weights/best.pt", "--img", "2880", "1344", "--source", savePath)
+	cmd := exec.Command("python", "/Users/mamdouhhazem/yolov5/detect.py", "--weights", "/Users/mamdouhhazem/Desktop/Graduaiton_Project/DATASET/runs_results/newDatasetV5L/weights/best.pt", "--img", "512", "256", "--source", savePath)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to perform inference", "details": err.Error()})
@@ -196,7 +195,7 @@ func DoctorConfirmPasswordReset(email string, db *gorm.DB, c *gin.Context) {
 	confirmpassword := c.Param("confirmpassword")
 
 	if err := db.Where("d_email = ?", email).First(&doctor).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Doctor not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Doctor not found, wrong email"})
 		return
 	}
 
