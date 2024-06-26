@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://localhost:8000/styles.css">
+        <title>Dentify-X</title>
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="left-div">
+                <img id="profile-pic" src="http://localhost:8000/doctor.jpg" alt="Profile Picture">
+                <h4>Welcome Dr/ </h4>
+                <h4 id="welcome-message"></h4>
+                <h1 id="admin-name"></h1>
+                <button id="logout-btn1">Profile</button>
+                <button id="logout-btn2">Settings</button>
+                <form  action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
+               <button id="logout-btn3">Log Out</button></form>
+            </div>
+
+        <div id="ldiv">
+            <!-- <div id="right-div"> -->
+                <div class="button-wrapper1">
+                    <img class="button-image" src="http://localhost:8000/exisiting.png" alt="Button Image 1" style="width: 200px;height: 200px;">
+                    <button class="action-btn" type="submit" id="existingpatient">Existing Patient</button>
+                </div>
+                <div class="button-wrapper2">
+                    <img class="button-image" src="http://localhost:8000/addpatient.png" alt="Button Image 2"  style="width: 200px;height: 200px;">
+                    <button class="action-btn" type="submit" id="addpatient">Add Patient</button>
+                </div>
+            <!-- </div> -->
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const welcomeMessage = urlParams.get('welcome');
+                const sessionId = urlParams.get('sessionid');
+    
+                if (welcomeMessage) {
+                    const welcomeElement = document.getElementById('welcome-message');
+                    welcomeElement.textContent = decodeURIComponent(welcomeMessage); // Decode welcome message
+                }
+    
+                const Button = document.getElementById('existingpatient');
+                Button.addEventListener('click', () => {
+                    if (sessionId) {
+                        window.location.href = `http://localhost:8000/exisitingpatient.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                    } else {
+                        console.error('Session ID not found in URL parameters');
+                    }
+                });
+
+                const loginButton = document.getElementById('addpatient');
+                loginButton.addEventListener('click', () => {
+                    if (sessionId) {
+                        window.location.href = `http://localhost:8000/addpatientcode.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                    } else {
+                        console.error('Session ID not found in URL parameters');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

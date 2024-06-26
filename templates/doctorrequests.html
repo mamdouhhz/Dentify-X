@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Requests</title>
+<style>
+    /* Reset default padding and margin */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set body background color */
+body {
+    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+}
+
+/* Center the table and adjust spacing */
+#ddiivv {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Style for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for table header */
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 12px;
+}
+
+/* Style for table cells */
+td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Style for alternating rows */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+h2{
+    text-align: center;
+    padding: 50px;
+    padding-bottom: 20px;
+}
+.action-btn {
+    background-color: #CDE8E5;
+    color: #4D869C;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #7AB2B2;
+    color: #EEF7FF;
+}
+</style>
+</head>
+    <body style="background-color:#dfebeb">
+        <h2>Doctor Requests</h2>
+        <div id="ddiivv">
+            <table id="doctorTable">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Clinic Address</th>
+                    <th>MLN</th>
+                </tr>
+            </table>
+        </div>
+
+        <script>
+            fetch('http://localhost:8080/Requests')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('doctorTable');
+                data['doctor requests:'].forEach(doctor => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${doctor.ID}</td>
+                        <td>${doctor.name}</td>
+                        <td>${doctor.phone_number}</td>
+                        <td>${doctor.email}</td>
+                        <td>${doctor.clinic_address}</td>
+                        <td>${doctor.mln}</td>
+                        <td><button onclick="acceptRequest(${doctor.ID})" class="action-btn">Accept</button></td>
+                        <td><button onclick="rejectRequest(${doctor.ID})" class="action-btn">Reject</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        
+            function acceptRequest(doctorID) {
+            fetch('http://localhost:8080/accept-request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    doctorRequestIDaccept: doctorID
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Request accepted successfully');
+                    location.reload(true);
+                } else {
+                    console.error('Failed to accept request');
+                }
+            })
+            .catch(error => console.error('Error accepting request:', error));
+        }
+
+
+        function rejectRequest(doctorID) {
+            fetch('http://localhost:8080/decline-request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    doctorRequestIDreject: doctorID
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Request rejected successfully');
+                    location.reload(true);
+                } else {
+                    console.error('Failed to reject request');
+                }
+            })
+            .catch(error => console.error('Error rejecting request:', error));
+        }
+        
+        function reloadPage() {
+            location.reload();
+        }
+        </script>
+    </body>
+</html>

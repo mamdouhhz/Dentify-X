@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8000/adminL.css">
+    <title>Dentify-X</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div id="container">
+        <!-- Back button icon -->
+        <a href="http://localhost:8000/welcome.html" class="back-button">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <div id="left-side">
+            <h1 class="admin">Admin</h1>
+            <img class="button-image" src="http://localhost:8000/manager_3281355.png" alt="Admin">
+        </div>
+        <div id="right-side">
+            <div class="form-container" id="formContainer">
+                <div class="form-toggle">
+                    <button id="loginToggle" class="active" onclick="toggleForm('login')">Login</button>
+                    <button id="signupToggle" onclick="toggleForm('signup')">Sign up</button>
+                </div>
+
+
+                <form id="loginForm">
+                    <p id="errmessage" style="color:red;"></p>
+                    <div class="form-group">
+                        <label for="A_Email">Email address</label>
+                        <input type="email" class="form-control" id="A_Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="A_password">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control password-input" id="A_password" required>
+                            <span class="password-toggle" onclick="togglePassword('A_password', this)">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+
+                <form id="signupForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" class="form-control" id="signupName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email address</label>
+                        <input type="email" class="form-control" id="signupEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control password-input" id="signupPassword" required>
+                            <span class="password-toggle" onclick="togglePassword('signupPassword', this)">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPhone">Phone Number</label>
+                        <input type="text" class="form-control" id="signupPhone" required>
+                    </div>
+                    <div class="form-group gender-container">
+                        <label>Gender</label>
+                        <label>
+                            <input type="radio" name="gender" value="male" required>
+                            <span></span>
+                            Male
+                        </label>
+                        <label>
+                            <input type="radio" name="gender" value="female" required>
+                            <span></span>
+                            Female
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginform = document.getElementById('loginForm');
+    
+            loginform.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('A_Email').value;
+                const password = document.getElementById('A_password').value;
+    
+                const loginUrl = "http://localhost:8080/alogin";
+    
+                fetch(loginUrl, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json, text/plain, */*",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.error) {
+                        // 3shan el alert dy teshta8al shelt function el login handler,
+                        // w nadaht 3la function el login direct fel endpoint 3shan el response feeh kaza "error"
+                        // fa howa 8aleban mesh by3raf yezher anhy wahda.
+                        const errormessage = document.getElementById('errmessage');
+                        errormessage.textContent = decodeURIComponent(data.error);
+                        // alert("Error: " + data.error);
+                    } else if (data.welcome) {
+                        const welcomeMessage = decodeURIComponent(data.welcome);
+                        window.location.href = `http://localhost:8000/admin.html`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+    <script src="http://localhost:8000/adminL.js"></script>
+</body>
+</html>

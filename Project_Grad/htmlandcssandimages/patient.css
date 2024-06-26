@@ -1,0 +1,266 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #CDE8E5;
+}
+
+#container {
+    display: flex;
+    height: 100vh;
+}
+
+#ldiv {
+    margin-left: 50px;
+    margin-top: 50px;
+    margin-right: -15px;
+}
+#admin-greeting {
+    color: #CDE8E5;
+    font-size: 24px;
+    margin-bottom: 20px;
+    }
+
+#left-div {
+    flex: 0.13; /* 30% of the screen 0.237*/
+    background-color: #416979;
+    padding: 58px; /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align items at the top */
+    border-radius: 0px 50px 50px 0px;
+}
+
+#right-div {
+    flex: 2; /* Adjusted to maintain the layout */
+    background-color: #fefffe;
+    width: 179%;
+    height: 80%;
+    padding: 50px; /* Reduced padding */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* Add space between buttons */
+    border-radius: 30px;
+}
+
+#profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+#admin-greeting {
+    color: #CDE8E5;
+    font-size: 24px;
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+#logout-btn1 {
+    background-color: #CDE8E5;
+    color: #4D869C;
+    border: none;
+    padding: 10px 20px;
+    width: 100px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add margin to separate from above elements */
+    position: absolute; /* Absolute positioning */
+    bottom: 130px; 
+    left: 58px;
+}
+
+#logout-btn2 {
+    background-color: #CDE8E5;
+    color: #4D869C;
+    border: none;
+    padding: 10px 20px;
+    width: 100px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add margin to separate from above elements */
+    position: absolute; /* Absolute positioning */
+    bottom: 80px; 
+    left: 58px;
+}
+
+#logout-btn3 {
+    background-color: #CDE8E5;
+    color: #4D869C;
+    border: none;
+    padding: 10px 20px;
+    width: 100px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add margin to separate from above elements */
+    position: absolute; /* Absolute positioning */
+    bottom: 30px;
+    left: 58px; /* Adjust the left position as needed */
+}
+
+#logout-btn1:hover {
+    background-color: #4D869C;
+    color: #EEF7FF;
+}
+#logout-btn2:hover {
+    background-color: #4D869C;
+    color: #EEF7FF;
+}
+#logout-btn3:hover {
+    background-color: #4D869C;
+    color: #EEF7FF;
+}
+
+.nav {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+}
+
+.nav-item {
+    width: 100%;
+    margin-bottom: 10px; /* Reduced margin */
+}
+
+.nav-link {
+    color: #CDE8E5;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link:hover {
+    background-color: #4D869C;
+    border-radius: 5px;
+}
+
+.nav-link i {
+    margin-right: 10px;
+}
+
+.button-wrapper1 {
+    display: flex; /* Use flexbox for each button-wrapper */
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    background-color: #fefffe; /* Specify background color */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Shadow */
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+    width: 100%; /* Make the wrapper take 80% of the parent width */
+    max-width: 1000px; /* Limit the maximum width */
+    padding: 20px;
+    margin: 20px 10% 20px 17%; /* Center horizontally and add vertical margin, adjust the 'auto' and '10%' as per your need */
+}
+
+
+.button-wrapper1:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+}
+.table-container {
+    max-height: 650px; /* Adjust height as needed */
+    overflow-y: auto; /* Enable vertical scroll */
+}
+
+#doctorTable {
+    width: 100%;
+    border-collapse: collapse; /* Remove default table borders */
+    text-align: center;
+}
+
+#doctorTable th, #doctorTable td {
+    padding: 15px;
+    border: none; /* Remove borders from table cells */
+}
+
+#doctorTable th {
+    background-color: transparent; /* Remove background color from header */
+    color: #333;
+    font-weight: bold;
+}
+
+#doctorTable td {
+    background-color: #ffffff;
+    color: #666;
+}
+
+#doctorTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#doctorTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+#doctorTable thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+
+
+.button-image {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.action-btn {
+    background-color: #CDE8E5;
+    color: #4D869C;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #7AB2B2;
+    color: #EEF7FF;
+}
+
+.card {
+    background-color: #E0F7FA;
+    border: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s;
+    border-radius: 15px;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+.hover-card:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    transition: transform 0.3s;
+}
+
+.icon:hover {
+    transform: rotate(20deg);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}

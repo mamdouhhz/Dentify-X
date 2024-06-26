@@ -1,10 +1,10 @@
 package middlewares
 
-import "github.com/gin-gonic/gin"
+// import "github.com/gin-gonic/gin"
 
-func BasicAuth() gin.HandlerFunc {
+// func BasicAuth() gin.HandlerFunc {
 
-	return gin.BasicAuth(gin.Accounts{
-		"mamdouh": "1234",
-	})
-}
+// 	return gin.BasicAuth(gin.Accounts{
+// 		"mamdouh": "1234",
+// 	})
+// }

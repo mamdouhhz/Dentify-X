@@ -4,6 +4,8 @@ import (
 	"Dentify-X/app/email"
 	"Dentify-X/app/hashing"
 	"Dentify-X/app/models"
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"net/http"
@@ -36,6 +38,7 @@ func PatientSignup(db *gorm.DB, c *gin.Context) error {
 		return err
 	}
 
+	user.Passcode = GenerateRandomPasscode()
 	if err = db.Create(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return err
@@ -45,9 +48,18 @@ func PatientSignup(db *gorm.DB, c *gin.Context) error {
 	return nil
 }
 
+func GenerateRandomPasscode() string {
+	bytes := make([]byte, 4) // 4 bytes will give us an 8-digit hexadecimal number
+	if _, err := rand.Read(bytes); err != nil {
+		return ""
+	}
+	return hex.EncodeToString(bytes)
+}
+
 func PatientLogin(db *gorm.DB, c *gin.Context) error {
 	var user models.Patient
 	var existingUser models.Patient
+	session := sessions.Default(c)
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -67,14 +79,12 @@ func PatientLogin(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid password"})
 		return err
 	}
-	session := sessions.Default(c)
 	session.Set("pid", existingUser.PatientID)
 
 	if err := session.Save(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return err
 	}
-
 	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.P_Name})
 	GetMedicalHistory(db, c, session)
 	return nil
@@ -115,4 +125,15 @@ func PatientConfirmPasswordReset(email string, db *gorm.DB, c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Password updated successfully"})
+}
+
+func PatientLogout(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Clear()
+	if err := session.Save(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to clear session"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"session": session.Get("pid")})
+	c.JSON(http.StatusOK, gin.H{"message": "Successfully logged out"})
 }

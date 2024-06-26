@@ -61,7 +61,7 @@ func DoctorAcceptanceEmail(email string, name string, c *gin.Context) {
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Test Email")
 
-	messageBody := "hi dr " + name + " you can now login to our system"
+	messageBody := "Welcome dr " + name + " you can now login to our system"
 	m.SetBody("text/plain", messageBody)
 
 	d := gomail.NewDialer("smtp.gmail.com", 587, "dentifyx24@gmail.com", "yyyx rysz tgef bxik")
@@ -83,7 +83,7 @@ func DoctorRejectionEmail(email string, name string, c *gin.Context) {
 	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Test Email")
 
-	messageBody := "hi " + name + " you are rejected"
+	messageBody := "Hi " + name + " you are rejected"
 	m.SetBody("text/plain", messageBody)
 
 	d := gomail.NewDialer("smtp.gmail.com", 587, "dentifyx24@gmail.com", "yyyx rysz tgef bxik")

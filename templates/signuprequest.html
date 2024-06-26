@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors' Signup Request</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 40px;
+            overflow: hidden;
+        }
+
+        .image-container {
+            flex: 1;
+            background: url('/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/templates/images/login.jpeg') no-repeat center center;
+            background-size: cover;
+            height: 100%;
+            min-height: 700px;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 30px;
+            text-align: center;
+            height: 90%;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #4a90e2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-field {
+            width: 70%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+
+        .btn {
+            background-color: #4a90e2;
+            color: #ffffff;
+            padding: 14px 26px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 70%;
+        }
+
+        .btn:hover {
+            background-color: #357ab8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        p a {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        p a:hover {
+            color: #357ab8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container"></div>
+        <div class="form-container">
+            <h2>Doctors' Signup Request</h2>
+            <form action="http://localhost:8080/dsignupreq" method="POST">
+                <input type="text" class="input-field" name="D_Name" placeholder="Full Name" required>
+                <input type="text" class="input-field" name="D_PhoneNumber" placeholder="Phone Number" required>
+                <input type="password" class="input-field" name="D_Password" placeholder="Password" required>
+                <input type="text" class="input-field" name="MLN" placeholder="Medical License Number" required>
+                <input type="text" class="input-field" name="D_Gender" placeholder="Gender" required>
+                <input type="email" class="input-field" name="D_Email" placeholder="Email" required>
+
+                <button type="submit" class="btn">Signup</button>
+            </form>
+            <p>Already have an account? <a href="/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/templates/doctor/doctorlogin.html">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>

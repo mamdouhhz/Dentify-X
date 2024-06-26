@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://localhost:8000/addpatientcode.css">
+        <title>Dentify-X</title>
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="left-div">
+                <img id="profile-pic" src="http://localhost:8000/doctor.jpg" alt="Profile Picture">
+                <h4>Welcome Dr/ </h4>
+                <h4 id="welcome-message"></h4>
+                <button id="logout-btn1">Profile</button>
+                <button id="logout-btn2">Settings</button>
+                <form  action="forms.html" method="GET" style="margin: 0; padding: 0;">
+                <button id="logout-btn3">Log Out</button></form>
+            </div>
+
+        <div id="ldiv">
+            <!-- <div id="right-div"> -->
+                <div class="button-wrapper1">
+                    <img class="button-image" src="http://localhost:8000/addpatient.png" alt="Button Image 1" >
+                    <form id="view-requests-form" method="GET">
+                        <input class="action-input" type="text" name="patient" placeholder="Patient ID" id="PatientID">
+                        <input class="action-input" type="text" name="patient" placeholder="Passcode" id="Passcode">
+                        <button class="action-btn" type="submit">ADD</button>
+                    </form>
+                </div>
+            <!-- </div> -->
+        </div>
+        <p id="errmessage" style="color:red;"></p>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+   
+               const urlParam = new URLSearchParams(window.location.search);
+               const doctorname = urlParam.get('name');
+   
+               if (doctorname) {
+                   const welcomeElement = document.getElementById('welcome-message');
+                   welcomeElement.textContent = decodeURIComponent(doctorname);
+               }
+   
+               const form = document.getElementById('view-requests-form');
+       
+               form.addEventListener('submit', (e) => {
+                   e.preventDefault();
+                   
+                   const patientid = parseInt(document.getElementById('PatientID').value, 10);
+                   const passcode = document.getElementById('Passcode').value;
+   
+                   const urlParams = new URLSearchParams(window.location.search);
+                   const doctorid = parseInt(urlParams.get('sessionid'), 10);
+       
+                   const loginUrl = "http://localhost:8080/addpatient";
+       
+                   fetch(loginUrl, {
+                       method: "POST",
+                       headers: {
+                           "Accept": "application/json, text/plain, */*",
+                           "Content-Type": "application/json",
+                       },
+                       body: JSON.stringify({
+                           patientid: patientid,
+                           passcode: passcode,
+                           doctorid: doctorid,
+                       }),
+                   })
+                   .then(response => response.json())
+                   .then(data => {
+                       console.log(data);
+                       if (data.error) {
+                           // 3shan el alert dy teshta8al shelt function el login handler,
+                           // w nadaht 3la function el login direct fel endpoint 3shan el response feeh kaza "error"
+                           // fa howa 8aleban mesh by3raf yezher anhy wahda.
+                           const errormessage = document.getElementById('errmessage');
+                           errormessage.textContent = decodeURIComponent(data.error);
+                           // alert("Error: " + data.error);
+                       } else if (data.message) {
+                           const errormessage = document.getElementById('errmessage');
+                           errormessage.textContent = decodeURIComponent(data.message);
+                       }
+                   })
+                   .catch(error => {
+                       console.error('Error:', error);
+                   });
+               });
+           });
+       </script>
+    </body>
+</html>

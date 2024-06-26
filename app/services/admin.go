@@ -5,7 +5,6 @@ import (
 	"Dentify-X/app/models"
 	"errors"
 	"net/http"
-	"text/template"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -30,10 +29,11 @@ func AdminLogin(db *gorm.DB, c *gin.Context) error {
 		return err
 	}
 
-	// if err := bcrypt.CompareHashAndPassword([]byte(existingAdmin.A_password), []byte(admin.A_password)); err != nil {
-	// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid password"})
-	// 	return err
-	// }
+	if err := db.Where("a_password = ?", admin.A_password).First(&existingAdmin).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "wrong password"})
+		return nil
+	}
+
 	session := sessions.Default(c)
 	session.Set("aid", existingAdmin.AdminID)
 
@@ -41,149 +41,21 @@ func AdminLogin(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return err
 	}
-	c.JSON(http.StatusOK, gin.H{"welcome": existingAdmin.A_Name})
-	GetDoctorRequests(db, c)
+	c.JSON(http.StatusOK, gin.H{
+		"welcome":   existingAdmin.A_Name,
+		"sessionid": session.Get("aid"),
+	})
 	return nil
 }
 
-// Define an HTML template
-const htmlTemplate = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Doctor Requests</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body style="background-color:#dfebeb">
-    <h1>Doctor Requests</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-				<th>phone</th>
-				<th>password</th>
-				<th>mln</th>
-				<th>gender</th>
-				<th>email</th>
-				<th>clinic</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .DoctorRequests}}
-            <tr>
-                <td>{{.D_Name}}</td>
-				<td>{{.D_PhoneNumber}}</td>
-				<td>{{.D_Password}}</td>
-				<td>{{.MLN}}</td>
-				<td>{{.D_Gender}}</td>
-				<td>{{.D_Email}}</td>
-				<td>{{.ClinicAddress}}</td>
-				<td>
-				<form method="POST" action="http://localhost:8080/accept-request">
-					<input type="hidden" name="doctorRequestIDaccept" value="{{.ID}}">
-					<button type="submit" class="accept-btn">Accept</button>
-        		</form>
-
-				<form method="POST" action="http://localhost:8080/decline-request">
-					<input type="hidden" name="doctorRequestIDreject" value="{{.ID}}">
-					<button type="submit" class="accept-btn">Reject</button>
-        		</form>
-				</td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
-</body>
-</html>
-`
-
-// Define GetDoctorRequests function
 func GetDoctorRequests(db *gorm.DB, c *gin.Context) {
-	var doctorRequests []models.DoctorRequests
-	if err := db.Find(&doctorRequests).Error; err != nil {
-		c.String(http.StatusInternalServerError, "Failed to retrieve doctor requests: %s", err.Error())
+	var DoctorRequests []models.DoctorRequests
+	if err := db.Find(&DoctorRequests).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve doctor requests", "details": err.Error()})
 		return
 	}
-
-	// Execute HTML template
-	t, err := template.New("DoctorRequests").Parse(htmlTemplate)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Failed to parse template: %s", err.Error())
-		return
-	}
-
-	// Render HTML template with data and send it as response
-	if err := t.Execute(c.Writer, gin.H{"DoctorRequests": doctorRequests}); err != nil {
-		c.String(http.StatusInternalServerError, "Failed to render template: %s", err.Error())
-		return
-	}
+	c.JSON(http.StatusOK, gin.H{"doctor requests:": DoctorRequests})
 }
-
-// Define an HTML template
-const htmlTemplatee = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Doctors</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body style="background-color:#dfebeb">
-    <h1>Doctors</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-				<th>phone</th>
-				<th>password</th>
-				<th>mln</th>
-				<th>gender</th>
-				<th>email</th>
-				<th>clinic</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .Doctor}}
-            <tr>
-                <td>{{.D_Name}}</td>
-				<td>{{.D_PhoneNumber}}</td>
-				<td>{{.D_Password}}</td>
-				<td>{{.MLN}}</td>
-				<td>{{.D_Gender}}</td>
-				<td>{{.D_Email}}</td>
-				<td>{{.ClinicAddress}}</td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
-</body>
-</html>
-`
 
 func GetDoctors(db *gorm.DB, c *gin.Context) {
 	var doctors []models.Doctor
@@ -191,73 +63,8 @@ func GetDoctors(db *gorm.DB, c *gin.Context) {
 		c.String(http.StatusInternalServerError, "Failed to retrieve doctors: %s", err.Error())
 		return
 	}
-
-	// Execute HTML template
-	t, err := template.New("Doctor").Parse(htmlTemplatee)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Failed to parse template: %s", err.Error())
-		return
-	}
-
-	// Render HTML template with data and send it as response
-	if err := t.Execute(c.Writer, gin.H{"Doctor": doctors}); err != nil {
-		c.String(http.StatusInternalServerError, "Failed to render template: %s", err.Error())
-		return
-	}
+	c.JSON(http.StatusOK, gin.H{"doctors: ": doctors})
 }
-
-// Define an HTML template
-const htmlTemplateee = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Patients</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body style="background-color:#dfebeb">
-    <h1>Patients</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-				<th>Passcode</th>
-				<th>Name</th>
-				<th>gender</th>
-				<th>phone</th>
-				<th>email</th>
-				<th>password</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .Patient}}
-            <tr>
-                <td>{{.PatientID}}</td>
-				<td>{{.Passcode}}</td>
-				<td>{{.P_Name}}</td>
-				<td>{{.P_Gender}}</td>
-				<td>{{.P_PhoneNumber}}</td>
-				<td>{{.P_Email}}</td>
-				<td>{{.P_Password}}</td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
-</body>
-</html>
-`
 
 func GetPatients(db *gorm.DB, c *gin.Context) {
 	var patients []models.Patient
@@ -265,19 +72,7 @@ func GetPatients(db *gorm.DB, c *gin.Context) {
 		c.String(http.StatusInternalServerError, "Failed to retrieve doctors: %s", err.Error())
 		return
 	}
-
-	// Execute HTML template
-	t, err := template.New("Patient").Parse(htmlTemplateee)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Failed to parse template: %s", err.Error())
-		return
-	}
-
-	// Render HTML template with data and send it as response
-	if err := t.Execute(c.Writer, gin.H{"patients": patients}); err != nil {
-		c.String(http.StatusInternalServerError, "Failed to render template: %s", err.Error())
-		return
-	}
+	c.JSON(http.StatusOK, gin.H{"patients: ": patients})
 }
 
 func AcceptDoctorRequest(db *gorm.DB, c *gin.Context, doctorRequestID uint) {

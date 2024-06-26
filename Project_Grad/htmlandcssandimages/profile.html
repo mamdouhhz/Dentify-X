@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="http://localhost:8000/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="http://localhost:8000/doctor.jpg" alt="Profile Image" class="profile-img">
+            <h1 id="name">Name from Database</h1>
+            <!-- <h2 id="location">San Francisco, CA</h2> -->
+        </div>
+        <div class="profile-details">
+            <a href="http://localhost:8000/doctor.jpg" class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="email@example.com" style="border: none;" readonly>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value="password123" style="border: none;" readonly>
+            
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" value="123-456-7890"  style="border: none;"readonly>
+        </div>
+    </div>
+    <script src="http://localhost:8000/profile.js"></script>
+</body>
+</html>

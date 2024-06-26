@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical History</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .sidebar img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+        .sidebar h2 {
+            margin: 10px 0;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            margin: 15px 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .main-content {
+            flex: 1;
+            background-color: #ecf0f1;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .file-list {
+            margin-top: 20px;
+        }
+        .file-item {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-info {
+            display: flex;
+            align-items: center;
+        }
+        .file-info img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .file-info div {
+            display: flex;
+            flex-direction: column;
+        }
+        .file-progress {
+            width: 200px;
+            height: 10px;
+            background-color: #bdc3c7;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        .file-progress div {
+            height: 100%;
+            background-color: #3498db;
+        }
+        .file-size {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="doctor-profile.jpg" alt="Doctor Profile">
+        <h2>Welcome, Dr.</h2>
+        <h2></h2>
+        <a href="#">User Profile</a>
+        <a href="#">Settings</a>
+        <a href="#">Sign Out</a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Medical History</h1>
+        </div>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-info">
+                    <img src="file-icon.png" alt="File Icon">
+                    <div>
+                        <span>filename.doc</span>
+                        <span class="file-size">3 MB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="file-item">
+                <div class="file-info">
+                    <img src="file-icon.png" alt="File Icon">
+                    <div>
+                        <span>filename.doc</span>
+                        <span class="file-size">20 KB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="file-item">
+                <div class="file-info">
+                    <img src="file-icon.png" alt="File Icon">
+                    <div>
+                        <span>filename.doc</span>
+                        <span class="file-size">32 MB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="file-item">
+                <div class="file-info">
+                    <img src="file-icon.png" alt="File Icon">
+                    <div>
+                        <span>filename.doc</span>
+                        <span class="file-size">15 MB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

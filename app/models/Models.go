@@ -23,18 +23,18 @@ type DoctorRequests struct {
 	DoctorID      uint   `gorm:"primary_key;autoIncrement" json:"doctor_id"`
 	D_Name        string `json:"name"`
 	D_PhoneNumber string `json:"phone_number"`
-	D_Password    string `json:"d_password"`
+	D_Password    string `json:"password"`
 	MLN           string `json:"mln"`
 	D_Gender      string `json:"gender"`
-	D_Email       string `json:"d_email"`
+	D_Email       string `json:"email"`
 	ClinicAddress string `json:"clinic_address"`
 }
 
 type Patient struct {
 	gorm.Model
-	PatientID uint   `gorm:"primary_key;autoIncrement" json:"patient_id" unique:"true"`
-	Passcode  string `json:"passcode"`
-	//MedicalHistory []DoctorXray `json:"medical_history"` // question.
+	PatientID     uint   `gorm:"primary_key;autoIncrement" json:"patient_id" unique:"true"`
+	Passcode      string `json:"passcode"`
+	Xray          []byte `json:"Xray"`
 	P_Name        string `json:"name"`
 	P_Gender      string `json:"gender"`
 	P_PhoneNumber string `json:"phone_number"`

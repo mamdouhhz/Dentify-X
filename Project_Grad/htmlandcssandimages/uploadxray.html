@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8000/upload.css">
+    <title>Dentify-X</title>
+</head>
+<body>
+    <div id="container">
+        <div id="left-div">
+            <img id="profile-pic" src="http://localhost:8000/doctor.jpg" alt="Profile Picture">
+            <h4>Welcome Dr/ </h4>
+            <h4 id="welcome-message"></h4>
+            <form action="http://localhost:8000/profile.html">
+                <button id="logout-btn1">Profile</button>
+            </form>
+            <button id="logout-btn2">Settings</button>
+            <form action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
+                <button id="logout-btn3">Log Out</button>
+            </form>
+        </div>
+
+        <div id="ldiv">
+            <div class="button-wrapper1">
+                <img class="button-image" src="http://localhost:8000/upload.png" alt="Button Image 1" style="width: 500px;">
+                <form id="view-requests-form" action="http://localhost:8080/upload" method="POST" enctype="multipart/form-data">
+                    <div><input class="action-upload" type="file" name="file"></div>
+                    
+                    <!-- <h3 style="color: #4D869C;">Prescription</h3>
+                    <textarea class="action-btn" name="prescription"></textarea> -->
+                    <button class="action-btn2" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <p id="errmessage" style="color:red;"></p>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const doctorname = urlParams.get('doctorname');
+                const sessionid = urlParams.get('sessionid');
+                const patientid = urlParams.get('patientid');
+
+                if (doctorname) {
+                    const welcomeElement = document.getElementById('welcome-message');
+                    welcomeElement.textContent = decodeURIComponent(doctorname); // Decode welcome message
+                }
+            });
+        </script>
+</body>
+</html>

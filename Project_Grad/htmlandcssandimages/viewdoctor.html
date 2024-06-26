@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8000/Vdoctor.css">
+    <title>Dentify-X</title>
+</head>
+<body>
+    <div id="container">
+        <div id="left-div">
+            <img id="profile-pic" src="http://localhost:8000/manager_3281355.png" alt="Profile Picture">
+            <div id="admin-greeting">Welcome Admin</div>
+            <h1 id="admin-name"></h1>
+            <form action="http://localhost:8000/profileA.html" method="GET" style="padding: 0px; margin: 0px;">
+                <button id="logout-btn1">Profile</button>
+            </form>
+            <form action="" method="GET" style="margin: 0; padding: 0;">
+                <button id="logout-btn2">Settings</button>
+            </form>
+            <form action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
+                <button id="logout-btn3">Log Out</button>
+            </form>
+        </div>
+
+        <div id="ldiv">
+            <div class="button-wrapper1">
+                <div class="table-container">
+                    <table id="doctorTable">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                        </tr>
+                    </table>
+                </div>
+        
+                <script>
+                    fetch('http://localhost:8080/doctors')
+                    .then(response => response.json())
+                    .then(data => {
+                        const tableBody = document.getElementById('doctorTable');
+                        data['doctors: '].forEach(doctor => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${doctor.ID}</td>
+                            <td>${doctor.name}</td>
+                            <td>${doctor.phone_number}</td>
+                            <td>${doctor.email}</td>
+                            <td>${doctor.clinic_address}</td>
+                        `;
+                        tableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+                </script>
+</body>
+</html>

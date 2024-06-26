@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8000/patient.css">
+    <title>Dentify-X</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="left-div">
+            <img id="profile-pic" src="http://localhost:8000/patient_3034851.png" alt="Profile Picture">
+            <div id="admin-greeting">Welcome Patient</div>
+            <h1 id="admin-name"></h1>
+            <form action="http://localhost:8000/profileP.html" method="GET">
+                <button id="logout-btn1">Profile</button>
+            </form>
+            <button id="logout-btn2">Settings</button>
+            <form action="http://localhost:8000/welcome.html" method="GET">
+                <button id="logout-btn3">Log Out</button>
+            </form>
+        </div>
+
+        <div id="ldiv">
+            <div class="button-wrapper1">
+                <div class="table-container">
+                    <table id="doctorTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                                <th>Clinic Address</th>
+                                <th>MLN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example row, replace with dynamic data -->
+                            <tr>
+                                <td>1</td>
+                                <td>John Doe</td>
+                                <td>123-456-7890</td>
+                                <td>johndoe@example.com</td>
+                                <td>123 Clinic St</td>
+                                <td>MLN123456789</td>
+                            </tr>
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

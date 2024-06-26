@@ -1,0 +1,67 @@
+   /* Reset default padding and margin */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set body background color */
+body {
+    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+}
+
+/* Center the table and adjust spacing */
+#ddiivv {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Style for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for table header */
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 12px;
+}
+
+/* Style for table cells */
+td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Style for alternating rows */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+h2{
+    text-align: center;
+    padding: 50px;
+    padding-bottom: 20px;
+}
+.action-btn {
+    background-color: #CDE8E5;
+    color: #4D869C;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #7AB2B2;
+    color: #EEF7FF;
+}

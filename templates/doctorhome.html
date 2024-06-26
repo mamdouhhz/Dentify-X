@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dentify-X</title>
+    </head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #CDE8E5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Make sure the page takes up the full height of the viewport */
+        }
+
+        .button-wrapper {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-image {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            background-color: #CDE8E5;
+            color: #4D869C;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #7AB2B2;
+            color: #EEF7FF;
+        }
+    </style>
+
+    <body>
+            <h2>Welcome Dr/ </h2>
+            <strong><h2 id="welcome-message"></h2></strong>
+
+        <div class="button-wrapper">
+            <img class="button-image" src="/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/templates/images/uploaddd.jpg" alt="Button Image 1">
+            <form id="view-requests-form" action="http://localhost:8000/rafe3sora.html" method="GET">
+                <button class="action-btn" type="submit">Upload Xray</button>
+            </form>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const welcomeMessage = urlParams.get('welcome');
+    
+                if (welcomeMessage) {
+                    const welcomeElement = document.getElementById('welcome-message');
+                    welcomeElement.textContent = decodeURIComponent(welcomeMessage); // Decode welcome message
+                }
+            });
+        </script>
+    </body>
+</html>

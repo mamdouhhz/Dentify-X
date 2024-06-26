@@ -70,7 +70,7 @@ func Doctorlogin(db *gorm.DB, c *gin.Context) error {
 				}
 				return err
 			}
-			c.JSON(http.StatusOK, gin.H{"welcome": "you are still pending approval from our admins"})
+			c.JSON(http.StatusOK, gin.H{"error": "you are still pending approval from our admins"})
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
@@ -89,15 +89,18 @@ func Doctorlogin(db *gorm.DB, c *gin.Context) error {
 		return err
 	}
 
-	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.D_Name})
+	c.JSON(http.StatusOK, gin.H{
+		"welcome":   existingUser.D_Name,
+		"sessionid": session.Get("did"),
+	})
 	return nil
 }
 
 func AddPatient(db *gorm.DB, c *gin.Context) error {
 	var requestData struct {
-		DoctorID  uint   `json:"doctor_id"`
-		Passcode  string `json:"passcode"`
-		PatientID uint   `json:"patient_id"`
+		PatientID uint   `json:"PatientID"`
+		Passcode  string `json:"Passcode"`
+		DoctorID  uint   `json:"DoctorID"`
 	}
 
 	if err := c.ShouldBindJSON(&requestData); err != nil {
@@ -114,15 +117,15 @@ func AddPatient(db *gorm.DB, c *gin.Context) error {
 		return err
 	}
 
-	var existingDoctor models.Doctor
-	if err := db.Where("doctor_id = ?", requestData.DoctorID).First(&existingDoctor).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "doctor does not exist"})
-		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		}
-		return err
-	}
+	// var existingDoctor models.Doctor
+	// if err := db.Where("doctor_id = ?", requestData.DoctorID).First(&existingDoctor).Error; err != nil {
+	// 	if errors.Is(err, gorm.ErrRecordNotFound) {
+	// 		c.JSON(http.StatusNotFound, gin.H{"error": "doctor does not exist"})
+	// 	} else {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	}
+	// 	return err
+	// }
 
 	var existingPatient models.Patient
 	if err := db.Where("passcode = ? AND patient_id = ?", requestData.Passcode, requestData.PatientID).First(&existingPatient).Error; err != nil {
@@ -145,6 +148,34 @@ func AddPatient(db *gorm.DB, c *gin.Context) error {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "patient record added successfully to DoctorPatient"})
+	return nil
+}
+
+func ExistingPatient(db *gorm.DB, c *gin.Context) error {
+	var doctorPatient models.DoctorPatient
+
+	// Define a struct to bind the incoming JSON data
+	type RequestBody struct {
+		DoctorID  uint `json:"doctor_id"`
+		PatientID uint `json:"patient_id"`
+	}
+
+	var requestBody RequestBody
+
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return err
+	}
+
+	// Check if the patient exists for the given doctor
+	if err := db.Where("patient_id = ? AND doctor_id = ?", requestBody.PatientID, requestBody.DoctorID).First(&doctorPatient).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(http.StatusNotFound, gin.H{"error": "patient is not added to your list"})
+		return err
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return err
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "patient found"})
 	return nil
 }
 
@@ -180,10 +211,14 @@ func UploadXray(c *gin.Context) {
 		return
 	}
 
-	cmd := exec.Command("python", "/Users/mamdouhhazem/yolov5/detect.py", "--weights", "/Users/mamdouhhazem/Desktop/Graduaiton_Project/DATASET/runs_results/newDatasetV5L/weights/best.pt", "--img", "512", "256", "--source", savePath)
+	// Path to the yolo command
+	yoloCmd := "/Users/mamdouhhazem/opt/anaconda3/envs/dentex/bin/yolo"
+
+	// Execute the yolo command with the correct model and source
+	cmd := exec.Command(yoloCmd, "predict", "model=/Users/mamdouhhazem/Desktop/Graduaiton_Project/runs_results/newDatasetV8M/weights/best.pt", "source="+savePath)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to perform inference", "details": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to perform inference", "details": err.Error(), "output": string(out)})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"detections": string(out)})

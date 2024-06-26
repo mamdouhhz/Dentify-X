@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentify-X</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0eaf0, #f4f7f6);
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #2c3e50;
+            transition: all 0.3s;
+        }
+
+        .sidebar:hover {
+            width: 220px;
+        }
+
+        .sidebar-sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            padding-bottom: .5rem;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        }
+
+        .sidebar .nav-link {
+            font-weight: 500;
+            color: #fff;
+            transition: color 0.2s;
+        }
+
+        .sidebar .nav-link.active {
+            color: #1abc9c;
+        }
+
+        .sidebar .nav-link:hover {
+            color: #1abc9c;
+        }
+
+        .user-profile img {
+            width: 80px;
+            height: 80px;
+            transition: all 0.3s;
+        }
+
+        .user-profile img:hover {
+            transform: scale(1.1);
+        }
+
+        .card {
+            background-color: #E0EAF0;
+            border: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+            border-radius: 15px;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .icon {
+            width: 30%;
+            margin-top: 20px;
+            transition: transform 0.3s;
+        }
+
+        .icon:hover {
+            transform: rotate(20deg);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #1abc9c;
+            box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+                <div class="sidebar-sticky">
+                    <div class="user-profile text-center py-4">
+                        <img src="images/doctor.jpg" alt="Dr. Adam Ali" class="img-fluid rounded-circle profile-img">
+                        <h4>Welcome Dr/ </h4>
+                        <h4 id="welcome-message"></h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="fas fa-user"></i>
+                                User Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sign Out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="height: 100px;">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <a href="#"><img src="images/back.png" alt="back" class="img-fluid icon" style="height: auto; width: auto;"></a>
+                    <h1 class="h2" style="text-align: center; margin-right: 550px;">Dentify-X</h1>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="card text-center hover-card">
+                            <div class="card-body">
+                                <img src="images/exisiting.png" alt="existingpatient" class="img-fluid icon">
+                                <button type="submit" class="btn" id="existingpatient">Existing Patient</button>
+                                <!-- <h5 class="card-title mt-3">Existing Patient</h5> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card text-center hover-card">
+                            <div class="card-body">
+                                <img src="images/addpatient.png" alt="addpatient" class="img-fluid icon">
+                                <button type="submit" class="btn" id="addpatient">Add Patient</button>
+                                <!-- <h5 class="card-title mt-3">Add Patient</h5> -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const welcomeMessage = urlParams.get('welcome');
+            const sessionId = urlParams.get('sessionid');
+
+            if (welcomeMessage) {
+                const welcomeElement = document.getElementById('welcome-message');
+                welcomeElement.textContent = decodeURIComponent(welcomeMessage); // Decode welcome message
+            }
+
+            const loginButton = document.getElementById('addpatient');
+            loginButton.addEventListener('click', () => {
+                if (sessionId) {
+                    window.location.href = `http://localhost:8000/addpatient.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                } else {
+                    console.error('Session ID not found in URL parameters');
+                }
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

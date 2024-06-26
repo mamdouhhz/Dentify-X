@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #EEF7FF;
+    background-color:#CDE8E5;
 }
 
 #container {
@@ -10,14 +10,32 @@ body {
     height: 100vh;
 }
 
+#ldiv{
+    margin-left: 50px;
+    margin-top: 50px;
+    margin-right: -15px;
+}
+
+#right-div {
+    flex: 2;
+    background-color: #fefffe;
+    padding: 210px;
+    display: flex;
+    flex-direction: row; /* Change flex direction to row */
+    align-items: center;
+    justify-content: space-between; /* Add space between buttons */
+    border-radius: 30px;
+}
+
 #left-div {
     flex: 0.8;
     background-color: #416979;
-    padding: 20px;
+    padding: 35px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    border-radius: 0px 50px 50px 0px;
 }
 
 #profile-pic {
@@ -28,7 +46,7 @@ body {
 }
 
 #admin-greeting {
-    color: #4D869C;
+    color: #CDE8E5;
     font-size: 24px;
     margin-bottom: 20px;
 }
@@ -49,21 +67,11 @@ body {
     color: #EEF7FF;
 }
 
-#right-div {
-    flex: 2;
-    background-color: #fefffe;
-    padding: 250px;
-    display: flex;
-    flex-direction: row; /* Change flex direction to row */
-    align-items: center;
-    justify-content: space-between; /* Add space between buttons */
-}
-
 .button-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 70px;
+    padding: 20px;
     /* background-color: #e1e8f2; */
 }
 
