@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/adminL.css">
+    <link rel="stylesheet" href="http://localhost:8000/adminL3.css">
     <title>Dentify-X</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -21,11 +21,11 @@
             <div class="form-container" id="formContainer">
                 <div class="form-toggle">
                     <button id="loginToggle" class="active" onclick="toggleForm('login')">Login</button>
-                    <button id="signupToggle" onclick="toggleForm('signup')">Sign up</button>
+                    <!-- <button id="signupToggle" onclick="toggleForm('signup')">Sign up</button> -->
                 </div>
 
 
-                <form id="loginForm">
+                <form id="loginForm" method="post">
                     <p id="errmessage" style="color:red;"></p>
                     <div class="form-group">
                         <label for="A_Email">Email address</label>
@@ -44,58 +44,43 @@
                 </form>
 
 
-                <form id="signupForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="signupName">Full Name</label>
-                        <input type="text" class="form-control" id="signupName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupEmail">Email address</label>
-                        <input type="email" class="form-control" id="signupEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupPassword">Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control password-input" id="signupPassword" required>
-                            <span class="password-toggle" onclick="togglePassword('signupPassword', this)">
-                                <i class="fas fa-eye-slash"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupPhone">Phone Number</label>
-                        <input type="text" class="form-control" id="signupPhone" required>
-                    </div>
-                    <div class="form-group gender-container">
-                        <label>Gender</label>
-                        <label>
-                            <input type="radio" name="gender" value="male" required>
-                            <span></span>
-                            Male
-                        </label>
-                        <label>
-                            <input type="radio" name="gender" value="female" required>
-                            <span></span>
-                            Female
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Sign up</button>
-                </form>
             </div>
         </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const loginform = document.getElementById('loginForm');
+            console.log('DOM fully loaded and parsed');
+
+            // Function to display error message if present
+            const displayErrorMessage = () => {
+                var errorMessage = document.getElementById('errmessage');
+                // Check if error message exists and is not empty
+                if (errorMessage.innerText.trim() !== '') {
+                    // Display the error message box
+                    errorMessage.style.display = 'block';
     
-            loginform.addEventListener('submit', (e) => {
+                    // Close the error message box after 5 seconds (adjust as needed)
+                    setTimeout(function() {
+                        errorMessage.style.display = 'none';
+                    }, 5000); // 5000 milliseconds = 5 seconds
+                }
+            };
+    
+            // Call displayErrorMessage when DOM content is loaded
+            displayErrorMessage();
+
+            const loginForm = document.getElementById('loginForm');
+
+            loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const email = document.getElementById('A_Email').value;
                 const password = document.getElementById('A_password').value;
-    
+
+                console.log('Login form submitted', { email, password });
+
                 const loginUrl = "http://localhost:8080/alogin";
-    
+
                 fetch(loginUrl, {
                     method: "POST",
                     headers: {
@@ -111,15 +96,12 @@
                 .then(data => {
                     console.log(data);
                     if (data.error) {
-                        // 3shan el alert dy teshta8al shelt function el login handler,
-                        // w nadaht 3la function el login direct fel endpoint 3shan el response feeh kaza "error"
-                        // fa howa 8aleban mesh by3raf yezher anhy wahda.
                         const errormessage = document.getElementById('errmessage');
                         errormessage.textContent = decodeURIComponent(data.error);
-                        // alert("Error: " + data.error);
+                        displayErrorMessage();
                     } else if (data.welcome) {
-                        const welcomeMessage = decodeURIComponent(data.welcome);
-                        window.location.href = `http://localhost:8000/admin.html`;
+                        //const welcomeMessage = decodeURIComponent(data.welcome);
+                        window.location.href = `http://localhost:8000/admin.html?welcome=${data.welcome}&sessionid=${data.sessionid}`;
                     }
                 })
                 .catch(error => {
@@ -128,6 +110,6 @@
             });
         });
     </script>
-    <script src="http://localhost:8000/adminL.js"></script>
+    <!-- <script src="http://localhost:8000/adminL.js"></script> -->
 </body>
 </html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8000/predicted.css">
+    <title>Predicted X-ray</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Diagnosed X-ray</h2>
+        <img id="predicted-image" src="" alt="Predicted X-ray">
+        <input type="hidden" name="patient_id" id="patient_id" value="">
+        <form id="save-prescription-form">
+            <br>
+            <br>
+            <textarea class="action-input" name="prescription" id="prescription" placeholder="Enter prescription..." required></textarea>
+            <br>
+            <br>
+            <button class="action-btn2" type="submit">Save Prescription</button>
+            <br>
+            <br>
+        </form>
+    </div>
+    <!-- <div id="message"></div> -->
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const patientid = parseInt(urlParams.get('patientid'), 10);
+    document.getElementById('patient_id').value = patientid;
+
+    fetch("http://localhost:8080/latest-predicted-image")
+        .then(response => response.blob())
+        .then(blob => {
+            const imgElement = document.getElementById("predicted-image");
+            const url = URL.createObjectURL(blob);
+            imgElement.src = url;
+        })
+        .catch(error => {
+            console.error("Error fetching the latest predicted image:", error);
+        });
+
+    document.getElementById("save-prescription-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const prescription = document.getElementById("prescription").value;
+        const patient_id = parseInt(document.getElementById("patient_id").value, 10);
+
+        fetch("http://localhost:8080/save-prescription", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ prescription: prescription, patient_id: patient_id })
+        })
+        .then(response => response.json())
+.then(data => {
+    console.log("Success:", data);
+    showStyledMessage("Prescription saved successfully!", "success");
+    document.getElementById("prescription").value = ""; // Clear the textarea after submission
+})
+.catch(error => {
+    console.error("Error saving prescription:", error);
+    showStyledMessage("Error saving prescription. Please try again.", "error");
+});
+
+function showStyledMessage(message, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.textContent = message;
+    messageDiv.style.padding = '10px';
+    messageDiv.style.marginTop = '10px';
+    messageDiv.style.borderRadius = '5px';
+    messageDiv.style.fontWeight = 'bold';
+    messageDiv.style.position = 'fixed';
+    messageDiv.style.top = '39%';
+    messageDiv.style.left = '50%';
+    messageDiv.style.transform = 'translate(-50%, -50%)';
+    messageDiv.style.zIndex = '9999';
+    messageDiv.style.backgroundColor = type === 'success' ? '#4caf50' : '#f44336';
+    messageDiv.style.color = 'white';
+    messageDiv.style.textAlign = 'center';
+    messageDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+
+    document.body.appendChild(messageDiv);
+
+    // Remove message after 3 seconds
+    setTimeout(() => {
+        messageDiv.remove();
+    }, 3000);
+}
+
+
+    });
+});
+    </script>
+</body>
+</html>

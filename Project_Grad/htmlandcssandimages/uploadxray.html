@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/upload.css">
+    <link rel="stylesheet" href="http://localhost:8000/upload3.css">
     <title>Dentify-X</title>
 </head>
 <body>
     <div id="container">
         <div id="left-div">
             <img id="profile-pic" src="http://localhost:8000/doctor.jpg" alt="Profile Picture">
-            <h4>Welcome Dr/ </h4>
-            <h4 id="welcome-message"></h4>
-            <form action="http://localhost:8000/profile.html">
+            <h4 class="admin-greeting">Welcome Dr/ <h4 class="admin-greeting" id="welcome-message"></h4></h4>
+            
+            <!-- <form action="http://localhost:8000/profile.html">
                 <button id="logout-btn1">Profile</button>
             </form>
-            <button id="logout-btn2">Settings</button>
+            <button id="logout-btn2">Settings</button> -->
             <form action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
                 <button id="logout-btn3">Log Out</button>
             </form>
@@ -24,29 +24,69 @@
         <div id="ldiv">
             <div class="button-wrapper1">
                 <img class="button-image" src="http://localhost:8000/upload.png" alt="Button Image 1" style="width: 500px;">
-                <form id="view-requests-form" action="http://localhost:8080/upload" method="POST" enctype="multipart/form-data">
-                    <div><input class="action-upload" type="file" name="file"></div>
-                    
+                <form id="view-requests-form" enctype="multipart/form-data">
+                    <div>
+                        <input class="action-upload" type="file" name="file" id="fileInput" required> <!-- File input -->
+                        <input type="hidden" name="patient_id" id="patient_id" value=""> <!-- Patient ID -->
+                        <input type="hidden" name="doctor_id" id="doctor_id" value=""> <!-- Doctor ID -->
+                    </div>
                     <!-- <h3 style="color: #4D869C;">Prescription</h3>
-                    <textarea class="action-btn" name="prescription"></textarea> -->
+                    <textarea class="action-btn" name="prescription" id="prescription"></textarea> -->
                     <button class="action-btn2" type="submit">Submit</button>
                 </form>
             </div>
         </div>
     </div>
     <p id="errmessage" style="color:red;"></p>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const doctorname = urlParams.get('doctorname');
-                const sessionid = urlParams.get('sessionid');
-                const patientid = urlParams.get('patientid');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const doctorname = urlParams.get('doctorname');
+            const sessionid = parseInt(urlParams.get('sessionid'), 10);
+            const patientid = parseInt(urlParams.get('patientid'), 10);
 
-                if (doctorname) {
-                    const welcomeElement = document.getElementById('welcome-message');
-                    welcomeElement.textContent = decodeURIComponent(doctorname); // Decode welcome message
+            if (doctorname) {
+                const welcomeElement = document.getElementById('welcome-message');
+                welcomeElement.textContent = decodeURIComponent(doctorname);
+            }
+
+            // Set hidden fields for patient_id and doctor_id
+            document.getElementById('patient_id').value = patientid;
+            document.getElementById('doctor_id').value = sessionid;
+
+            const form = document.getElementById('view-requests-form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData();
+                formData.append('file', document.getElementById('fileInput').files[0]); // Append the file
+                // formData.append('prescription', document.getElementById('prescription').value); // Append prescription if needed
+                formData.append('patient_id', patientid); // Append patient ID
+                formData.append('doctor_id', sessionid); // Append doctor ID
+
+                const uploadUrl = "http://localhost:8080/upload";
+                try {
+                    const response = await fetch(uploadUrl, {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+
+                    if (data.error) {
+                        const errorMessage = document.getElementById('errmessage');
+                        errorMessage.textContent = decodeURIComponent(data.error);
+                    } else if (data.message) {
+                        window.location.href = `http://localhost:8000/predicted.html?patientid=${patientid}`;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
                 }
             });
-        </script>
+        });
+    </script>
 </body>
 </html>

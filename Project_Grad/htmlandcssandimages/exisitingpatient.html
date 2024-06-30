@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="http://localhost:8000/exisitingpatient.css">
+        <link rel="stylesheet" href="http://localhost:8000/exisitingpatient23.css">
         <title>Dentify-X</title>
     </head>
 
@@ -11,10 +11,10 @@
         <div id="container">
             <div id="left-div">
                 <img id="profile-pic" src="http://localhost:8000/doctor.jpg" alt="Profile Picture">
-                <h4>Welcome Dr/ </h4>
-                <h4 id="welcome-message"></h4>
-                <button id="logout-btn1">Profile</button>
-                <button id="logout-btn2">Settings</button>
+                <h4 class="admin-greeting">Welcome Dr/ <h4 class="admin-greeting" id="welcome-message"></h4> </h4>
+                
+                <!-- <button id="logout-btn1">Profile</button>
+                <button id="logout-btn2">Settings</button> -->
                 <form  action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
                 <button id="logout-btn3">Log Out</button></form>
             </div>
@@ -33,6 +33,23 @@
         <p id="errmessage" style="color:red;"></p>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                 // Function to display error message if present
+            const displayErrorMessage = () => {
+                var errorMessage = document.getElementById('errmessage');
+                // Check if error message exists and is not empty
+                if (errorMessage.innerText.trim() !== '') {
+                    // Display the error message box
+                    errorMessage.style.display = 'block';
+    
+                    // Close the error message box after 5 seconds (adjust as needed)
+                    setTimeout(function() {
+                        errorMessage.style.display = 'none';
+                    }, 5000); // 5000 milliseconds = 5 seconds
+                }
+            };
+    
+            // Call displayErrorMessage when DOM content is loaded
+            displayErrorMessage();
    
                const urlParams = new URLSearchParams(window.location.search);
                const doctorname = urlParams.get('name');
@@ -74,6 +91,7 @@
                        if (data.error) {
                            const errormessage = document.getElementById('errmessage');
                            errormessage.textContent = decodeURIComponent(data.error);
+                           displayErrorMessage();
                        } else if (data.message) {
                         window.location.href = `http://localhost:8000/import_medicalhistory.html?sessionid=${sessionId}&patientid=${patientid}&doctorname=${doctorname}`;
                        }

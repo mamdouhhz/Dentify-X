@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/patientL.css">
+    <link rel="stylesheet" href="http://localhost:8000/patientL3.css">
     <title>Dentify-X</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
+<body style="background-image: url(http://localhost:8000/Snapseed.jpg);    background-size: cover;
+background-position: repeat;
+background-repeat: no-repeat; background-position-y: 18%;">
     <div id="container">
         <!-- Back button icon -->
         <a href="welcome.html" class="back-button">
@@ -15,7 +17,7 @@
         </a>
         
         <div id="left-side">
-            <h1 class="patient">Patient</h1>
+            <h1 class="patient" style="color: #07364e;">Patient</h1>
             <img class="button-image" src="http://localhost:8000/patient_3034851.png" alt="Admin">
         </div>
         <div id="right-side">
@@ -24,37 +26,33 @@
                     <button id="loginToggle" class="active" onclick="toggleForm('login')">Login</button>
                     <button id="signupToggle" onclick="toggleForm('signup')">Sign up</button>
                 </div>
+
                 <form id="loginForm">
+                    <p id="errmessage" style="color:red;"></p>
                     <div class="form-group">
                         <label for="loginEmail">Email address</label>
-                        <input type="email" class="form-control" id="loginEmail" required>
+                        <input type="email" class="form-control" name="loginEmail" id="loginEmail" required>
                     </div>
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="loginPassword" required>
-                            <div class="input-group-append">
-                                <span class="input-group-text" onclick="togglePassword('loginPassword', this)">
-                                    <i class="fas fa-eye-slash"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <input type="password" class="form-control" name="loginPassword" id="loginPassword" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
+
                 <form id="signupForm" style="display: none;">
                     <div class="form-group">
                         <label for="signupName">Full Name</label>
-                        <input type="text" class="form-control" id="signupName" required>
+                        <input type="text" class="form-control" name="signupName" id="signupName" required>
                     </div>
                     <div class="form-group">
                         <label for="signupEmail">Email address</label>
-                        <input type="email" class="form-control" id="signupEmail" required>
+                        <input type="email" class="form-control" name="signupEmail" id="signupEmail" required>
                     </div>
                     <div class="form-group">
                         <label for="signupPassword">Password</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="signupPassword" required>
+                            <input type="password" class="form-control" name="signupPassword" id="signupPassword" required>
                             <div class="input-group-append">
                                 <span class="input-group-text" onclick="togglePassword('signupPassword', this)">
                                     <i class="fas fa-eye-slash"></i>
@@ -64,7 +62,7 @@
                     </div>
                     <div class="form-group">
                         <label for="signupPhone">Phone Number</label>
-                        <input type="text" class="form-control" id="signupPhone" required>
+                        <input type="text" class="form-control" name="signupPhone" id="signupPhone" required>
                     </div>
                     <div class="form-group gender-container">
                         <label>Gender</label>
@@ -84,6 +82,114 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed');
+            // Function to display error message if present
+            const displayErrorMessage = () => {
+                var errorMessage = document.getElementById('errmessage');
+                // Check if error message exists and is not empty
+                if (errorMessage.innerText.trim() !== '') {
+                    // Display the error message box
+                    errorMessage.style.display = 'block';
+    
+                    // Close the error message box after 5 seconds (adjust as needed)
+                    setTimeout(function() {
+                        errorMessage.style.display = 'none';
+                    }, 5000); // 5000 milliseconds = 5 seconds
+                }
+            };
+    
+            // Call displayErrorMessage when DOM content is loaded
+            displayErrorMessage();
+
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                console.log('Login form submitted', { email, password });
+
+                const loginUrl = "http://localhost:8080/plogin";
+
+                fetch(loginUrl, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json, text/plain, */*",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.error) {
+                        const errormessage = document.getElementById('errmessage');
+                        errormessage.textContent = decodeURIComponent(data.error);
+                        displayErrorMessage();
+                    } else if (data.welcome) {
+                        //const welcomeMessage = decodeURIComponent(data.welcome);
+                        window.location.href = `http://localhost:8000/patient.html?welcome=${data.welcome}&sessionid=${data.sessionid}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('signupName').value;
+                const phone = document.getElementById('signupPhone').value;
+                const userpassword = document.getElementById('signupPassword').value;
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                const userEmail = document.getElementById('signupEmail').value;
+
+                console.log('Signup form submitted', { name, phone, userpassword, gender, userEmail });
+
+                const signupURL = "http://localhost:8080/psignup";
+
+                fetch(signupURL, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json, text/plain, */*",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        phone_number: phone,
+                        password: userpassword,
+                        gender: gender,
+                        email: userEmail,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.error) {
+                        const errormessage = document.getElementById('errmessage');
+                        errormessage.textContent = decodeURIComponent(data.error);
+                        displayErrorMessage();
+                    } else if (data.message) {
+                        const welcomeMessage = decodeURIComponent(data.message);
+                        window.location.href = `http://localhost:8000/welcome.html`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
     <script src="http://localhost:8000/patientL.js"></script>
 </body>
 </html>

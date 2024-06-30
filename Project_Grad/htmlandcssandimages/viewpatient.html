@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/Vpatient.css">
+    <link rel="stylesheet" href="http://localhost:8000/Vdoctor33.css">
     <title>Dentify-X</title>
 </head>
 <body>
     <div id="container">
         <div id="left-div">
-            <img id="profile-pic" src="http://localhost:8000/manager_3281355.png" alt="Profile Picture">
-            <div id="admin-greeting">Welcome Admin</div>
-            <h1 id="admin-name"></h1>
-            <form action="http://localhost:8000/profileA.html" method="GET" style="padding: 0px; margin: 0px;">
-                <button id="logout-btn1">Profile</button>
+            <img id="profile-pic" src="http://localhost:8000/Image 07-05-2024 at 12.17 AM.jpg" alt="Profile Picture">
+            <div class="admin-greeting"><h4>Welcome Admin</h4> <h4 class="admin-greeting" id="welcome-message" ></h4> </div>
+            
+            <!-- <h1 id="admin-name"></h1> -->
+             <!-- <button id="logout-btn2">Settings</button> -->
+            <form action="../html/profileA.html" method="GET" style="margin: 0; padding: 0;">
+                <button id="logout-btn2" >Profile</button>
             </form>
-            <form action="" method="GET" style="margin: 0; padding: 0;">
-                <button id="logout-btn2">Settings</button>
-            </form>
+           
             <form action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
                 <button id="logout-btn3">Log Out</button>
             </form>
@@ -27,49 +27,45 @@
             <div class="button-wrapper1">
                 <div class="table-container">
                     <table id="doctorTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Phone Number</th>
-                                <th>Email</th>
-                                <th>Clinic Address</th>
-                                <th>MLN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Example row, replace with dynamic data -->
-                            <tr>
-                                <td>1</td>
-                                <td>John Doe</td>
-                                <td>123-456-7890</td>
-                                <td>johndoe@example.com</td>
-                                <td>123 Clinic St</td>
-                                <td>MLN123456789</td>
-                            </tr>    <tr>
-                                <td>1</td>
-                                <td>John Doe</td>
-                                <td>123-456-7890</td>
-                                <td>johndoe@example.com</td>
-                                <td>123 Clinic St</td>
-                                <td>MLN123456789</td>
-                            </tr>    <tr>
-                                <td>1</td>
-                                <td>John Doe</td>
-                                <td>123-456-7890</td>
-                                <td>johndoe@example.com</td>
-                                <td>123 Clinic St</td>
-                                <td>MLN123456789</td>
-                            </tr>
-                            
-                            
-                            
-                            <!-- Add more rows as needed -->
-                        </tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Passcode</th>
+                            <th>Gender</th>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th >Email</th>
+                        </tr>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
+        
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const welcomeMessage = urlParams.get('name');
+            
+                        if (welcomeMessage) {
+                            const welcomeElement = document.getElementById('welcome-message');
+                            welcomeElement.textContent = decodeURIComponent(welcomeMessage); // Decode welcome message
+                        }
+                    });
+                    fetch('http://localhost:8080/patients')
+                    .then(response => response.json())
+                    .then(data => {
+                        const tableBody = document.getElementById('doctorTable');
+                        data['patients: '].forEach(patient => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td style="text-align: left;">${patient.ID}</td>
+                            <td style="text-align: left;">${patient.passcode}</td>
+                            <td style="text-align: left;">${patient.gender}</td>
+                            <td style="text-align: left;">${patient.name}</td>
+                            <td style="text-align: left;">${patient.phone_number}</td>
+                            <td style="text-align: left;">${patient.email}</td>
+                        `;
+                        tableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+                </script>
 </body>
 </html>

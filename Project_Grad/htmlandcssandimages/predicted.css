@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #CDE8E5;
+    color: #4D869C;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #FEFFFE;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+    color: #4D869C;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#predicted-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#save-prescription-form {
+    text-align: center;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#prescription{
+    height: 230px;
+}
+
+.action-btn {
+    background-color: #FFFFFF;
+    color: #000000;
+    border: none;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 80%;
+    max-width: 300px;
+    display: block;
+    margin: 20px auto;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-size: cover;
+    background-blend-mode: overlay;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.action-btn:hover {
+    background-color: #F0F0F0;
+}
+
+.action-btn2 {
+    background-color: #7AB2B2;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 50px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn2:hover {
+    background-color: #6e9b96;
+}
+
+.action-input {
+    background-color: #FFFFFF;
+    color: #333333;
+    border: 1px solid #CCCCCC;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    height: 150px; /* Set fixed height */
+    resize: none; /* Disable resizing */
+}
+
+.action-input::placeholder {
+    color: #999999;
+}

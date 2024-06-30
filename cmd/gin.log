@@ -8,38 +8,34 @@
 [GIN-debug] POST   /addpatient               --> Dentify-X/app/routers.Rout.func4 (6 handlers)
 [GIN-debug] POST   /existingpatient          --> Dentify-X/app/routers.Rout.func5 (6 handlers)
 [GIN-debug] POST   /upload                   --> Dentify-X/app/routers.Rout.func6 (6 handlers)
-[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func7 (6 handlers)
-[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func8 (6 handlers)
-[GIN-debug] POST   /plogout                  --> Dentify-X/app/routers.Rout.func9 (6 handlers)
-[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func10 (6 handlers)
-[GIN-debug] GET    /doctors                  --> Dentify-X/app/routers.Rout.func11 (6 handlers)
-[GIN-debug] GET    /patients                 --> Dentify-X/app/routers.Rout.func12 (6 handlers)
-[GIN-debug] GET    /Requests                 --> Dentify-X/app/routers.Rout.func13 (6 handlers)
-[GIN-debug] POST   /accept-request           --> Dentify-X/app/routers.Rout.func14 (6 handlers)
-[GIN-debug] POST   /decline-request          --> Dentify-X/app/routers.Rout.func15 (6 handlers)
+[GIN-debug] GET    /latest-predicted-image   --> Dentify-X/app/services.ServeLatestPredictedImage (6 handlers)
+[GIN-debug] POST   /save-prescription        --> Dentify-X/app/routers.Rout.func7 (6 handlers)
+[GIN-debug] POST   /psignup                  --> Dentify-X/app/routers.Rout.func8 (6 handlers)
+[GIN-debug] POST   /plogin                   --> Dentify-X/app/routers.Rout.func9 (6 handlers)
+[GIN-debug] GET    /medicalhistory           --> Dentify-X/app/routers.Rout.func10 (6 handlers)
+[GIN-debug] POST   /plogout                  --> Dentify-X/app/routers.Rout.func11 (6 handlers)
+[GIN-debug] POST   /alogin                   --> Dentify-X/app/routers.Rout.func12 (6 handlers)
+[GIN-debug] GET    /doctors                  --> Dentify-X/app/routers.Rout.func13 (6 handlers)
+[GIN-debug] GET    /patients                 --> Dentify-X/app/routers.Rout.func14 (6 handlers)
+[GIN-debug] GET    /Requests                 --> Dentify-X/app/routers.Rout.func15 (6 handlers)
+[GIN-debug] POST   /accept-request           --> Dentify-X/app/routers.Rout.func16 (6 handlers)
+[GIN-debug] POST   /decline-request          --> Dentify-X/app/routers.Rout.func17 (6 handlers)
+[GIN-debug] GET    /files/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (6 handlers)
+[GIN-debug] HEAD   /files/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (6 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Environment variable PORT is undefined. Using port :8080 by default
 [GIN-debug] Listening and serving HTTP on :8080
-::1 - [Wed Jun 26 04:12:16 2024] OPTIONS /alogin 204 822.459µs 
-::1 - [Wed Jun 26 04:12:16 2024] POST /alogin 200 6.653791ms 
-::1 - [Wed Jun 26 04:12:17 2024] GET /Requests 200 667.083µs 
-::1 - [Wed Jun 26 04:12:19 2024] GET /doctors 200 1.812667ms 
-[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 500 with 200
-::1 - [Wed Jun 26 04:12:57 2024] POST /dsignupreq 500 889.696417ms 
-::1 - [Wed Jun 26 04:13:21 2024] POST /dsignupreq 200 1.840259583s 
-::1 - [Wed Jun 26 04:13:29 2024] POST /alogin 200 3.853208ms 
-::1 - [Wed Jun 26 04:13:30 2024] GET /Requests 200 879.834µs 
-::1 - [Wed Jun 26 04:13:40 2024] OPTIONS /accept-request 204 334.375µs 
-::1 - [Wed Jun 26 04:13:42 2024] POST /accept-request 200 1.351341792s 
-::1 - [Wed Jun 26 04:13:42 2024] GET /Requests 200 1.797083ms 
-::1 - [Wed Jun 26 04:13:45 2024] GET /doctors 200 2.073334ms 
-::1 - [Wed Jun 26 04:14:05 2024] POST /dlogin 200 62.083209ms 
-::1 - [Wed Jun 26 04:14:09 2024] POST /existingpatient 404 3.563333ms 
-::1 - [Wed Jun 26 04:14:12 2024] POST /existingpatient 404 3.142625ms 
-::1 - [Wed Jun 26 04:14:28 2024] POST /addpatient 200 5.64025ms 
-::1 - [Wed Jun 26 04:14:34 2024] POST /existingpatient 200 2.593ms 
-::1 - [Wed Jun 26 04:14:47 2024] POST /upload 200 3.434033333s 
-::1 - [Wed Jun 26 04:15:12 2024] POST /alogin 200 4.070792ms 
-::1 - [Wed Jun 26 04:15:24 2024] POST /alogin 200 3.84275ms 
-::1 - [Wed Jun 26 04:15:34 2024] POST /dlogin 200 96.513458ms 
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 409
+::1 - [Sun Jun 30 20:27:55 2024] POST /dsignupreq 200 3.912566833s 
+::1 - [Sun Jun 30 20:28:34 2024] POST /alogin 404 4.579833ms 
+::1 - [Sun Jun 30 20:28:36 2024] POST /alogin 200 3.912916ms 
+::1 - [Sun Jun 30 20:28:37 2024] GET /Requests 200 831.208µs 
+::1 - [Sun Jun 30 20:29:05 2024] GET /doctors 200 2.266166ms 
+::1 - [Sun Jun 30 20:29:08 2024] GET /doctors 200 3.083583ms 
+::1 - [Sun Jun 30 20:29:10 2024] GET /Requests 200 2.094084ms 
+::1 - [Sun Jun 30 20:29:13 2024] GET /doctors 200 2.80825ms 
+::1 - [Sun Jun 30 20:29:15 2024] GET /doctors 200 1.856667ms 
+::1 - [Sun Jun 30 20:32:24 2024] GET /doctors 200 2.272041ms 
+::1 - [Sun Jun 30 20:32:41 2024] GET /patients 200 2.648458ms 
+::1 - [Sun Jun 30 20:32:43 2024] GET /patients 200 2.637333ms 

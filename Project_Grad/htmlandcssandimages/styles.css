@@ -22,28 +22,29 @@ body {
     }
 
 #left-div {
-    flex: 0.13; /* 30% of the screen 0.237*/
-    background-color: #416979;
-    padding: 20px; /* Reduced padding */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Align items at the top */
-    border-radius: 0px 50px 50px 0px;
-}
+    
+        flex: 0.13; /* 30% of the screen 0.237*/
+        background-color: #416979;
+        padding: 19px; /* Reduced padding */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* Align items at the top */
+        border-radius: 0px 50px 50px 0px;
+    }
 
-#right-div {
-    flex: 2; /* Adjusted to maintain the layout */
-    background-color: #fefffe;
-    width: 179%;
-    height: 80%;
-    padding: 50px; /* Reduced padding */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between; /* Add space between buttons */
-    border-radius: 30px;
-}
+    #right-div {
+        flex: 2; /* Adjusted to maintain the layout */
+        background-color: #fefffe;
+        width: 179%;
+        height: 80%;
+        padding: 50px; /* Reduced padding */
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between; /* Add space between buttons */
+        border-radius: 30px;
+    }
 
 #profile-pic {
     width: 100px;
@@ -71,6 +72,7 @@ body {
     margin-top: 10px; /* Add margin to separate from above elements */
     position: absolute; /* Absolute positioning */
     bottom: 130px; 
+    left: 58px;
 }
 
 #logout-btn2 {
@@ -86,6 +88,7 @@ body {
     margin-top: 10px; /* Add margin to separate from above elements */
     position: absolute; /* Absolute positioning */
     bottom: 80px; 
+    left: 58px;
 }
 
 #logout-btn3 {
@@ -116,6 +119,7 @@ body {
     background-color: #4D869C;
     color: #EEF7FF;
 }
+
 
 .nav {
     width: 100%;
@@ -150,14 +154,14 @@ body {
     display: flex; /* Use flexbox for each button-wrapper */
     flex-direction: column; /* Arrange items vertically */
     align-items: center; /* Center items horizontally */
-    padding: 100px; /* Adjust padding as needed */
+    padding: 130px; /* Adjust padding as needed */
     background-color: #fefffe; /* Specify background color */
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Shadow */
     transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
     margin: 0 10px; /* Add margin between button wrappers */
     position: absolute; 
-    bottom: 25%;
+    bottom: 15%;
 }
 
 .button-wrapper1:hover {
@@ -167,15 +171,15 @@ body {
     display: flex; /* Use flexbox for each button-wrapper */
     flex-direction: column; /* Arrange items vertically */
     align-items: center; /* Center items horizontally */
-    padding: 100px; /* Adjust padding as needed */
+    padding: 130px; /* Adjust padding as needed */
     background-color: #fefffe; /* Specify background color */
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Shadow */
     transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
     margin: 0 10px; /* Add margin between button wrappers */
     position: absolute; 
-    bottom: 25%;
-    right: 3%;
+    bottom: 15%;
+    right: 9%;
 }
 
 .button-wrapper2:hover {
@@ -186,7 +190,7 @@ body {
 .button-image {
     width: 50px;
     height: 50px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .action-btn {
@@ -194,7 +198,7 @@ body {
     color: #4D869C;
     border: none;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 18px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;

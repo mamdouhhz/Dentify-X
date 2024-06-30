@@ -27,8 +27,7 @@ func Rout(db *gorm.DB) *gin.Engine {
 	r.Use(cors.New(config))
 
 	store := cookie.NewStore([]byte("secret"))
-	store.Options(sessions.Options{MaxAge: 500000})
-
+	store.Options(sessions.Options{MaxAge: 5})
 	r.Use(sessions.Sessions("mysession", store))
 
 	r.POST("/resetPassConfEmail/:email", func(c *gin.Context) {
@@ -39,6 +38,8 @@ func Rout(db *gorm.DB) *gin.Engine {
 	r.POST("/dsignupreq", func(c *gin.Context) {
 		services.DoctorSignupRequest(db, c)
 	})
+
+	// Apply AuthMiddleware to routes that require authentication
 	r.POST("/dlogin", func(c *gin.Context) {
 		services.Doctorlogin(db, c)
 	})
@@ -49,7 +50,11 @@ func Rout(db *gorm.DB) *gin.Engine {
 		services.ExistingPatient(db, c)
 	})
 	r.POST("/upload", func(c *gin.Context) {
-		services.UploadXray(c)
+		services.UploadXray(db, c)
+	})
+	r.GET("/latest-predicted-image", services.ServeLatestPredictedImage)
+	r.POST("/save-prescription", func(c *gin.Context) {
+		services.CreatePrescriptionPDF(c, db)
 	})
 
 	// Patient
@@ -57,7 +62,13 @@ func Rout(db *gorm.DB) *gin.Engine {
 		handlers.PsignupHandler(db, c)
 	})
 	r.POST("/plogin", func(c *gin.Context) {
-		handlers.Ploginhandler(db, c)
+		services.PatientLogin(db, c)
+	})
+	// r.POST("/google-login", func(c *gin.Context) {
+	// 	services.GoogleLogin(c)
+	// })
+	r.GET("/medicalhistory", func(c *gin.Context) {
+		services.GetMedicalHistory(db, c)
 	})
 	r.POST("/plogout", func(c *gin.Context) {
 		services.PatientLogout(c)

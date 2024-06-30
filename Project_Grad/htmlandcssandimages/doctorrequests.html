@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/docotrR.css">
+    <link rel="stylesheet" href="http://localhost:8000/docotrR33.css">
     <title>Dentify-X</title>
 </head>
 <body>
     <div id="container">
         <div id="left-div">
-            <img id="profile-pic" src="http://localhost:8000/manager_3281355.png" alt="Profile Picture">
-            <div id="admin-greeting">Welcome Admin</div>
-            <h1 id="admin-name"></h1>
-            <form action="http://localhost:8000/profileA.html" method="GET" style="padding: 0px; margin: 0px;">
-                <button id="logout-btn1">Profile</button>
+            <img id="profile-pic" src="http://localhost:8000/Image 07-05-2024 at 12.17 AM.jpg" alt="Profile Picture">
+            <div class="admin-greeting"><h4>Welcome Admin</h4> <h4 class="admin-greeting" id="welcome-message"></h4> </div>
+            
+            <!-- <h1 id="admin-name"></h1> -->
+             <!-- <button id="logout-btn2">Settings</button> -->
+            <form action="../html/profileA.html" method="GET" style="margin: 0; padding: 0;">
+                <button id="logout-btn2">Profile</button>
             </form>
-            <form action="" method="GET" style="margin: 0; padding: 0;">
-                <button id="logout-btn2">Settings</button>
-            </form>
+           
             <form action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
                 <button id="logout-btn3">Log Out</button>
             </form>
         </div>
 
         <div id="ldiv">
-            <div class="button-wrapper1">
+            <div class="button-wrapper1" style="margin: 20px 10% 20px 15%;">
                 <div class="table-container">
                     <table id="doctorTable">
                         <tr>
@@ -32,12 +32,22 @@
                             <th>Name</th>
                             <th>Phone Number</th>
                             <th>Email</th>
+                            <th></th>
                             <th>MLN</th>
                         </tr>
                     </table>
                 </div>
         
                 <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const welcomeMessage = urlParams.get('name');
+            
+                        if (welcomeMessage) {
+                            const welcomeElement = document.getElementById('welcome-message');
+                            welcomeElement.textContent = decodeURIComponent(welcomeMessage); // Decode welcome message
+                        }
+                    });
                     fetch('http://localhost:8080/Requests')
                     .then(response => response.json())
                     .then(data => {

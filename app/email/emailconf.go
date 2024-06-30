@@ -54,6 +54,28 @@ func DoctorWelcomeEmail(email string, name string, c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
 }
 
+func PendingDoctorEmail(email string, name string, c *gin.Context) {
+	m := gomail.NewMessage()
+
+	m.SetHeader("From", "dentifyx24@gmail.com")
+	m.SetHeader("To", email)
+	m.SetHeader("Subject", "Test Email")
+
+	messageBody := "Hi " + name + " You are still pending approval from our admins, you will recieve a confirmation email once our admins review your request"
+	m.SetBody("text/plain", messageBody)
+
+	d := gomail.NewDialer("smtp.gmail.com", 587, "dentifyx24@gmail.com", "yyyx rysz tgef bxik")
+	//d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+
+	if err := d.DialAndSend(m); err != nil {
+		errorMsg := fmt.Sprintf("Error sending email: %s", err)
+		fmt.Println(errorMsg)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": errorMsg})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
+}
+
 func DoctorAcceptanceEmail(email string, name string, c *gin.Context) {
 	m := gomail.NewMessage()
 

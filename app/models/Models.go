@@ -34,7 +34,6 @@ type Patient struct {
 	gorm.Model
 	PatientID     uint   `gorm:"primary_key;autoIncrement" json:"patient_id" unique:"true"`
 	Passcode      string `json:"passcode"`
-	Xray          []byte `json:"Xray"`
 	P_Name        string `json:"name"`
 	P_Gender      string `json:"gender"`
 	P_PhoneNumber string `json:"phone_number"`
@@ -56,11 +55,15 @@ type Xray struct {
 
 type DoctorXray struct {
 	gorm.Model
-	DoctorID     uint      `gorm:"references:DoctorID" json:"doctor_id"`
-	XrayID       uint      `gorm:"references:XrayID" json:"xray_id"`
-	PatientID    uint      `gorm:"references:PatientID" json:"patient_id"`
-	Prescription string    `json:"prescription"`
-	Date         time.Time `json:"date"`
+	MedicalHistory   uint      `gorm:"primary_key;autoIncrement;column:medicalhistory" json:"medicalhistory"`
+	DoctorID         uint      `gorm:"column:doctor_id" json:"doctor_id"`
+	PatientID        uint      `gorm:"column:patient_id" json:"patient_id"`
+	XrayID           []byte    `gorm:"column:xray_id;type:bytea" json:"XrayID"`
+	PredictedXray    []byte    `gorm:"column:predicted_xray;type:bytea" json:"PredictedXray"`
+	XrayPDFPath      string    `json:"xray_pdf_path"`
+	PredictedPDFPath string    `json:"predicted_pdf_path"`
+	Prescription     string    `gorm:"column:prescription" json:"Prescription"`
+	Date             time.Time `gorm:"column:date" json:"date"`
 }
 
 type Admin struct {

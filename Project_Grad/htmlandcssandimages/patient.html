@@ -3,16 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/patient.css">
+    <link rel="stylesheet" href="http://localhost:8000/patient5.css">
     <title>Dentify-X</title>
 </head>
-
 <body>
     <div id="container">
         <div id="left-div">
             <img id="profile-pic" src="http://localhost:8000/patient_3034851.png" alt="Profile Picture">
-            <div id="admin-greeting">Welcome Patient</div>
-            <h1 id="admin-name"></h1>
+            <h4 class="admin-greeting">Welcome <h4 class="admin-greeting" id="welcome-message"></h4></h4>
+            
+            <form action="http://localhost:8000/profileP.html" method="GET">
+                <button id="logout-btn2">Profile</button>
+            </form>
+            <!-- <button id="logout-btn2">Settings</button> -->
+            <form action="http://localhost:8000/welcome.html" method="GET">
+                <button id="logout-btn3">Log Out</button>
+            </form>
+        </div>
+
+        <div id="ldiv">
+            <div class="button-wrapper1" style="margin: 20px 10% 20px 10%;">
+                <div class="table-container">
+                    <table id="doctorTable">
+                        <thead>
+                            <tr>
+                                <th>Original Xray</th>
+                                <th>Predicted Xray</th>
+                                <th>Prescription</th>
+                                <th>Doctor ID</th>
+                                <th>Medical History ID</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const welcome = urlParams.get('welcome');
+            const patient_id = urlParams.get('sessionid');
+
+            if (welcome) {
+                const welcomeElement = document.getElementById('welcome-message');
+                welcomeElement.textContent = decodeURIComponent(welcome);
+            }
+
+            fetch(`http://localhost:8080/medicalhistory?patient_id=${patient_id}`)
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#doctorTable tbody');
+                data.medicalHistory.forEach(record => {
+                    const row = document.createElement('tr');
+                    const originalXrayCell = document.createElement('td');
+                    const predictedXrayCell = document.createElement('td');
+                    const prescriptioncell = document.createElement('td');
+                    const doctorIdCell = document.createElement('td');
+                    const medicalHistoryIdCell = document.createElement('td');
+                    const dateCell = document.createElement('td');
+
+                    const originalXrayLink = document.createElement('a');
+originalXrayLink.textContent = 'View Original X-Ray';
+originalXrayLink.href = 'http://example.com/original_xray.pdf'; // Replace with your actual link
+originalXrayLink.target = '_blank'; // Open in a new tab
+
+// Apply CSS styles
+originalXrayLink.style.backgroundColor = '#CDE8E5';
+originalXrayLink.style.color = '#4D869C';
+originalXrayLink.style.border = 'none';
+originalXrayLink.style.padding = '10px 20px';
+originalXrayLink.style.fontSize = '16px';
+originalXrayLink.style.borderRadius = '5px';
+originalXrayLink.style.textDecoration = 'none'; // Remove underline from link
+
+// Add hover effect
+originalXrayLink.addEventListener('mouseover', function() {
+    originalXrayLink.style.backgroundColor = '#A7D4D0'; // Darker background on hover
+});
+originalXrayLink.addEventListener('mouseout', function() {
+    originalXrayLink.style.backgroundColor = '#CDE8E5'; // Restore original background on mouseout
+});
+
+// Append the link to the DOM
+document.body.appendChild(originalXrayLink);
+
+                    originalXrayLink.textContent = 'View PDF';
+                    originalXrayLink.href = 'javascript:void(0);';
+                    originalXrayLink.addEventListener('click', () => redirectToPDF(record.xray_pdf_path));
+
+                    const predictedXrayLink = document.createElement('a');
+predictedXrayLink.textContent = 'View Predicted X-Ray';
+predictedXrayLink.href = 'http://example.com/predicted_xray.pdf'; // Replace with your actual link
+predictedXrayLink.target = '_blank'; // Open in a new tab
+
+// Apply CSS styles
+predictedXrayLink.style.backgroundColor = '#CDE8E5';
+predictedXrayLink.style.color = '#4D869C';
+predictedXrayLink.style.border = 'none';
+predictedXrayLink.style.padding = '10px 20px';
+predictedXrayLink.style.fontSize = '16px';
+predictedXrayLink.style.borderRadius = '5px';
+predictedXrayLink.style.textDecoration = 'none'; // Remove underline from link
+
+// Add hover effect
+predictedXrayLink.addEventListener('mouseover', function() {
+    predictedXrayLink.style.backgroundColor = '#A7D4D0'; // Darker background on hover
+});
+predictedXrayLink.addEventListener('mouseout', function() {
+    predictedXrayLink.style.backgroundColor = '#CDE8E5'; // Restore original background on mouseout
+});
+
+// Append the link to the DOM
+document.body.appendChild(predictedXrayLink);
+
+                    predictedXrayLink.textContent = 'View PDF';
+                    predictedXrayLink.href = 'javascript:void(0);';
+                    predictedXrayLink.addEventListener('click', () => redirectToPDF(record.predicted_pdf_path));
+
+                    const prescriptionLink = document.createElement('a');
+                    prescriptionLink.textContent = 'View Prescription PDF';
+                    prescriptionLink.href = 'http://example.com/prescription.pdf'; // Replace with your actual link
+                    prescriptionLink.target = '_blank'; // Open in a new tab
+
+                    // Apply CSS styles
+                    prescriptionLink.style.backgroundColor = '#CDE8E5';
+                    prescriptionLink.style.color = '#4D869C';
+                    prescriptionLink.style.border = 'none';
+                    prescriptionLink.style.padding = '10px 20px';
+                    prescriptionLink.style.fontSize = '16px';
+                    prescriptionLink.style.borderRadius = '5px';
+                    prescriptionLink.style.textDecoration = 'none'; // Remove underline from link
+
+                    // Add hover effect
+                    prescriptionLink.addEventListener('mouseover', function() {
+                        prescriptionLink.style.backgroundColor = '#A7D4D0'; // Darker background on hover
+                    });
+                    prescriptionLink.addEventListener('mouseout', function() {
+                        prescriptionLink.style.backgroundColor = '#CDE8E5'; // Restore original background on mouseout
+                    });
+
+                    // Append the link to the DOM
+                    document.body.appendChild(prescriptionLink);
+
+                    prescriptionLink.textContent = 'View PDF';
+                    prescriptionLink.href = 'javascript:void(0);';
+                    prescriptionLink.addEventListener('click', () => redirectToPDF(record.Prescription));
+
+                    originalXrayCell.appendChild(originalXrayLink);
+                    predictedXrayCell.appendChild(predictedXrayLink);
+                    prescriptioncell.appendChild(prescriptionLink);
+                    doctorIdCell.textContent = record.doctor_id;
+                    medicalHistoryIdCell.textContent = record.medicalhistory;
+                    dateCell.textContent = new Date(record.CreatedAt).toLocaleString('en-US', {
+                        month: 'short',
+                        day: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    });
+
+                    row.appendChild(originalXrayCell);
+                    row.appendChild(predictedXrayCell);
+                    row.appendChild(prescriptioncell);
+                    row.appendChild(doctorIdCell);
+                    row.appendChild(medicalHistoryIdCell);
+                    row.appendChild(dateCell);
+
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+            function redirectToPDF(path) {
+                console.log('Redirecting to:', path);
+                // Extract the filename from the path
+                var filename = path.substring(path.lastIndexOf('/') + 1);
+                console.log(filename);
+                
+                // Construct the localhost URL
+                var localhostURL = 'http://localhost:8000/' + filename;
+                
+                // Redirect to the constructed URL
+                console.log('Redirect URL:', localhostURL);
+                window.location.href = localhostURL;
+            }
+
+        });
+    </script>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:8000/patient.css">
+    <title>Dentify-X</title>
+</head>
+<body>
+    <div id="container">
+        <div id="left-div">
+            <img id="profile-pic" src="http://localhost:8000/patient_3034851.png" alt="Profile Picture">
+            <h4>Welcome</h4>
+            <h4 id="welcome-message"></h4>
             <form action="http://localhost:8000/profileP.html" method="GET">
                 <button id="logout-btn1">Profile</button>
             </form>
@@ -26,32 +227,48 @@
             <div class="button-wrapper1">
                 <div class="table-container">
                     <table id="doctorTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Phone Number</th>
-                                <th>Email</th>
-                                <th>Clinic Address</th>
-                                <th>MLN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Example row, replace with dynamic data -->
-                            <tr>
-                                <td>1</td>
-                                <td>John Doe</td>
-                                <td>123-456-7890</td>
-                                <td>johndoe@example.com</td>
-                                <td>123 Clinic St</td>
-                                <td>MLN123456789</td>
-                            </tr>
-                            <!-- Add more rows as needed -->
-                        </tbody>
+                        <tr>
+                            <th>Original Xray</th>
+                            <th>Predicted Xray</th>
+                            <th>Doctor ID</th>
+                            <th>MH ID</th>
+                            <th>Date</th>
+                        </tr>
                     </table>
                 </div>
             </div>
         </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const welcome = urlParams.get('welcome');
+                const patient_id = urlParams.get('sessionid'); // Corrected variable name
+
+                if (welcome) {
+                    const welcomeElement = document.getElementById('welcome-message');
+                    welcomeElement.textContent = decodeURIComponent(welcome);
+                }
+
+                fetch(`http://localhost:8080/medicalhistory?patient_id=${patient_id}`) // Corrected query parameter name
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('doctorTable');
+                    data.medicalHistory.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><img src="data:image/jpeg;base64,${record.XrayID}" alt="Original Xray"></td>
+                            <td><img src="data:image/jpeg;base64,${record.PredictedXray}" alt="Predicted Xray"></td>
+                            <td>${record.doctor_id}</td>
+                            <td>${record.medicalhistory}</td>
+                            <td>${new Date(record.date).toLocaleDateString()}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+            });
+        </script>
     </div>
 </body>
-</html>
+</html> -->
