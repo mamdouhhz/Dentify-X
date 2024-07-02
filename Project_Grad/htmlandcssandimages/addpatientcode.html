@@ -3,26 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="http://localhost:8000/addpatientcode1.css">
+        <link rel="stylesheet" href="https://localhost/files/addpatientcode1.css">
         <title>Dentify-X</title>
     </head>
 
     <body>
         <div id="container">
             <div id="left-div">
-                <img id="profile-pic" src="http://localhost:8000/doctor.jpg" alt="Profile Picture">
+                <img id="profile-pic" src="https://localhost/files/doctor.jpg" alt="Profile Picture">
                 <h4 class="admin-greeting">Welcome Dr/ <h4 class="admin-greeting" id="welcome-message"></h4></h4>
                 
                 <!-- <button id="logout-btn1">Profile</button>
                 <button id="logout-btn2">Settings</button> -->
-                <form  action="forms.html" method="GET" style="margin: 0; padding: 0;">
+                <form  action="https://localhost/files/welcome.html" method="GET" style="margin: 0; padding: 0;">
                 <button id="logout-btn3">Log Out</button></form>
             </div>
 
         <div id="ldiv">
             <!-- <div id="right-div"> -->
                 <div class="button-wrapper1">
-                    <img class="button-image" src="http://localhost:8000/addpatient.png" alt="Button Image 1" >
+                    <img class="button-image" src="https://localhost/files/addpatient.png" alt="Button Image 1" >
                     <form id="view-requests-form" method="GET">
                         <input class="action-input" type="text" name="patient" placeholder="Patient ID" id="PatientID">
                         <input class="action-input" type="text" name="patient" placeholder="Passcode" id="Passcode">
@@ -34,8 +34,9 @@
         <p id="errmessage"></p>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const urlParam = new URLSearchParams(window.location.search);
-                const doctorname = urlParam.get('name');
+                // Retrieve data from local storage
+                const sessionId = localStorage.getItem('dsessionid');
+                const doctorname = localStorage.getItem('dwelcome');
         
                 if (doctorname) {
                     const welcomeElement = document.getElementById('welcome-message');
@@ -50,10 +51,10 @@
                     const patientid = parseInt(document.getElementById('PatientID').value, 10);
                     const passcode = document.getElementById('Passcode').value;
         
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const doctorid = parseInt(urlParams.get('sessionid'), 10);
+
+                    const doctorid = parseInt(localStorage.getItem('dsessionid'), 10);
         
-                    const loginUrl = "http://localhost:8080/addpatient";
+                    const loginUrl = "https://localhost/addpatient";
         
                     fetch(loginUrl, {
                         method: "POST",

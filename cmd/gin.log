@@ -22,20 +22,61 @@
 [GIN-debug] POST   /decline-request          --> Dentify-X/app/routers.Rout.func17 (6 handlers)
 [GIN-debug] GET    /files/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (6 handlers)
 [GIN-debug] HEAD   /files/*filepath          --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (6 handlers)
+[GIN-debug] Listening and serving HTTPS on :443
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
-[GIN-debug] Environment variable PORT is undefined. Using port :8080 by default
-[GIN-debug] Listening and serving HTTP on :8080
-[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 200 with 409
-::1 - [Sun Jun 30 20:27:55 2024] POST /dsignupreq 200 3.912566833s 
-::1 - [Sun Jun 30 20:28:34 2024] POST /alogin 404 4.579833ms 
-::1 - [Sun Jun 30 20:28:36 2024] POST /alogin 200 3.912916ms 
-::1 - [Sun Jun 30 20:28:37 2024] GET /Requests 200 831.208µs 
-::1 - [Sun Jun 30 20:29:05 2024] GET /doctors 200 2.266166ms 
-::1 - [Sun Jun 30 20:29:08 2024] GET /doctors 200 3.083583ms 
-::1 - [Sun Jun 30 20:29:10 2024] GET /Requests 200 2.094084ms 
-::1 - [Sun Jun 30 20:29:13 2024] GET /doctors 200 2.80825ms 
-::1 - [Sun Jun 30 20:29:15 2024] GET /doctors 200 1.856667ms 
-::1 - [Sun Jun 30 20:32:24 2024] GET /doctors 200 2.272041ms 
-::1 - [Sun Jun 30 20:32:41 2024] GET /patients 200 2.648458ms 
-::1 - [Sun Jun 30 20:32:43 2024] GET /patients 200 2.637333ms 
+::1 - [Tue Jul  2 17:51:56 2024] GET /files/welcome.html 304 578.583µs 
+::1 - [Tue Jul  2 17:51:56 2024] GET /files/welcome33.css 304 381.416µs 
+::1 - [Tue Jul  2 17:51:56 2024] GET /files/Snapseed.jpg 200 7.900375ms 
+::1 - [Tue Jul  2 17:51:56 2024] GET /favicon.ico 404 1.1895ms 
+::1 - [Tue Jul  2 17:51:59 2024] GET /files/patientL.html 304 949.291µs 
+::1 - [Tue Jul  2 17:51:59 2024] GET /files/patientL.js 304 335.292µs 
+::1 - [Tue Jul  2 17:51:59 2024] GET /files/patientL3.css 200 635.208µs 
+::1 - [Tue Jul  2 17:52:02 2024] POST /plogin 200 97.055583ms 
+::1 - [Tue Jul  2 17:52:02 2024] GET /files/patient.html 304 206.042µs 
+::1 - [Tue Jul  2 17:52:02 2024] GET /files/patient5.css 304 431.417µs 
+::1 - [Tue Jul  2 17:52:02 2024] GET /medicalhistory?patient_id=74 200 1.26975ms 
+::1 - [Tue Jul  2 17:52:03 2024] GET /files/0004_jpg.rf.6434bfce7667ea786e5f251dc0d8b8b1.jpeg.pdf 200 2.725958ms 
+::1 - [Tue Jul  2 17:52:06 2024] GET /files/0004_jpg.rf.6434bfce7667ea786e5f251dc0d8b8b1.jpeg.predicted.pdf 200 1.920334ms 
+::1 - [Tue Jul  2 17:52:08 2024] GET /files/74_prescription_2024-07-02-00-25-43.pdf 200 935µs 
+::1 - [Tue Jul  2 17:52:13 2024] GET /files/doctorL1.html 304 254.875µs 
+::1 - [Tue Jul  2 17:52:13 2024] GET /files/doctorL3.css 304 225.5µs 
+::1 - [Tue Jul  2 17:52:13 2024] GET /files/doctorL.js 304 430.084µs 
+::1 - [Tue Jul  2 17:52:19 2024] POST /dlogin 200 97.695417ms 
+::1 - [Tue Jul  2 17:52:19 2024] GET /files/Doctor.html 304 225.667µs 
+::1 - [Tue Jul  2 17:52:19 2024] GET /files/doctor22.css 304 238.208µs 
+::1 - [Tue Jul  2 17:52:19 2024] GET /files/doctor.jpg 304 343.542µs 
+::1 - [Tue Jul  2 17:52:19 2024] GET /files/exisiting.png 304 131.709µs 
+::1 - [Tue Jul  2 17:52:19 2024] GET /files/addpatient.png 304 138.417µs 
+::1 - [Tue Jul  2 17:52:20 2024] GET /files/exisitingpatient.html 304 201.917µs 
+::1 - [Tue Jul  2 17:52:20 2024] GET /files/exisitingpatient23.css 304 276.792µs 
+::1 - [Tue Jul  2 17:52:22 2024] POST /existingpatient 200 3.537083ms 
+::1 - [Tue Jul  2 17:52:22 2024] GET /files/import_medicalhistory.html 304 656.541µs 
+::1 - [Tue Jul  2 17:52:22 2024] GET /files/importmedicalhistory33.css 304 406.25µs 
+::1 - [Tue Jul  2 17:52:22 2024] GET /files/xray-icon.png 304 434.625µs 
+::1 - [Tue Jul  2 17:52:22 2024] GET /files/medical-history-icon.png 304 698.958µs 
+::1 - [Tue Jul  2 17:52:26 2024] POST /existingpatient 404 2.556958ms 
+::1 - [Tue Jul  2 17:52:28 2024] POST /existingpatient 404 3.399375ms 
+::1 - [Tue Jul  2 17:52:29 2024] POST /existingpatient 404 3.5ms 
+::1 - [Tue Jul  2 17:52:32 2024] POST /existingpatient 404 4.952625ms 
+::1 - [Tue Jul  2 17:52:34 2024] GET /files/addpatientcode.html 304 762.084µs 
+::1 - [Tue Jul  2 17:52:34 2024] GET /files/addpatientcode1.css 304 685.292µs 
+::1 - [Tue Jul  2 17:52:37 2024] POST /addpatient 404 5.491125ms 
+::1 - [Tue Jul  2 17:52:41 2024] GET /files/welcome.html 304 715.875µs 
+::1 - [Tue Jul  2 17:52:42 2024] GET /files/adminL.html 304 673.917µs 
+::1 - [Tue Jul  2 17:52:42 2024] GET /files/adminL3.css 304 321.75µs 
+::1 - [Tue Jul  2 17:52:45 2024] POST /alogin 200 5.003625ms 
+::1 - [Tue Jul  2 17:52:45 2024] GET /files/admin.html 304 851.708µs 
+::1 - [Tue Jul  2 17:52:45 2024] GET /files/admin3.css 304 343.875µs 
+::1 - [Tue Jul  2 17:52:45 2024] GET /files/Image 07-05-2024 at 12.17 AM.jpg 304 306.041µs 
+::1 - [Tue Jul  2 17:52:45 2024] GET /files/Image 06-05-2024 at 11.14 PM (1).jpg 304 295.5µs 
+::1 - [Tue Jul  2 17:52:45 2024] GET /files/Image 06-05-2024 at 11.15 PM.jpg 304 1.014792ms 
+::1 - [Tue Jul  2 17:52:45 2024] GET /files/Image 06-05-2024 at 11.14 PM.jpg 304 1.3875ms 
+::1 - [Tue Jul  2 17:52:46 2024] GET /files/doctorrequests.html 304 589.833µs 
+::1 - [Tue Jul  2 17:52:46 2024] GET /files/docotrR33.css 304 402.375µs 
+::1 - [Tue Jul  2 17:52:46 2024] GET /Requests 200 1.182542ms 
+::1 - [Tue Jul  2 17:52:49 2024] GET /files/viewdoctor.html 304 718.959µs 
+::1 - [Tue Jul  2 17:52:49 2024] GET /files/Vdoctor33.css 304 561.125µs 
+::1 - [Tue Jul  2 17:52:49 2024] GET /doctors 200 2.239625ms 
+::1 - [Tue Jul  2 17:52:52 2024] GET /files/viewpatient.html 304 785.292µs 
+::1 - [Tue Jul  2 17:52:52 2024] GET /patients 200 2.235625ms 

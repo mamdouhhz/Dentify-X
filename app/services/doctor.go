@@ -41,7 +41,7 @@ func DoctorSignupRequest(db *gorm.DB, c *gin.Context) error {
 	}
 	if err := db.Where("mln = ?", user.MLN).First(&pendingUser).Error; !errors.Is(err, gorm.ErrRecordNotFound) {
 		email.PendingDoctorEmail(user.D_Email, user.D_Name, c)
-		c.JSON(http.StatusConflict, gin.H{"error": "check ypur email, fail"})
+		c.JSON(http.StatusConflict, gin.H{"error": "check your email, you are still pending approval from our admins"})
 		return err
 	}
 
@@ -56,7 +56,7 @@ func DoctorSignupRequest(db *gorm.DB, c *gin.Context) error {
 		return err
 	}
 	email.DoctorWelcomeEmail(user.D_Email, user.D_Name, c)
-	c.JSON(http.StatusOK, gin.H{"message": "check your email, success"})
+	c.JSON(http.StatusOK, gin.H{"message": "check your email"})
 	return nil
 }
 
@@ -106,21 +106,10 @@ func Doctorlogin(db *gorm.DB, c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"welcome":   existingUser.D_Name,
 		"sessionid": session.Get("did"),
+		"email":     existingUser.D_Email,
+		"password":  existingUser.D_PhoneNumber,
+		"phone":     existingUser.D_PhoneNumber,
 	})
-}
-
-// AuthMiddleware is a middleware function to check if session exists and is valid
-func AuthMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		did := session.Get("did")
-		if did == nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized access"})
-			c.Abort()
-			return
-		}
-		c.Next()
-	}
 }
 
 func AddPatient(db *gorm.DB, c *gin.Context) error {
@@ -206,8 +195,7 @@ func ExistingPatient(db *gorm.DB, c *gin.Context) error {
 	return nil
 }
 
-// Helper function to create a PDF from image bytes and prescription
-func createPDF(imageBytes []byte, filename string, prescription string) error {
+func createPDF(imageBytes []byte, filename string) error {
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	pdf.AddPage()
 
@@ -222,11 +210,32 @@ func createPDF(imageBytes []byte, filename string, prescription string) error {
 	pdf.RegisterImageOptionsReader(filename, imageOptions, bytes.NewReader(imageData))
 	pdf.ImageOptions(filename, 10, 10, 190, 0, false, imageOptions, 0, "")
 
-	// Add prescription text
+	// Set font for table
 	pdf.SetFont("Arial", "", 12)
 	pdf.SetTextColor(0, 0, 0) // Set text color to black (RGB values: 0, 0, 0)
-	pdf.SetY(-30)             // Adjust Y position based on your layout
-	pdf.MultiCell(0, 10, "Prescription: "+prescription, "", "L", false)
+
+	// Add table
+	tableX, tableY := 10.0, 150.0 // Adjust X, Y position of the table
+	pdf.SetXY(tableX, tableY)
+	cellWidth, cellHeight := 95.0, 10.0 // Adjust cell width and height
+
+	staticData := [][]string{
+		{"0: ", "Implants"},
+		{"1: ", "Fillings"},
+		{"3: ", "Impacted tooth"},
+		{"4: ", "caries"},
+	}
+
+	for _, row := range staticData {
+		for _, col := range row {
+			pdf.CellFormat(cellWidth, cellHeight, col, "1", 0, "C", false, 0, "")
+		}
+		pdf.Ln(-1)
+	}
+
+	// Add prescription text
+	pdf.SetY(-30) // Adjust Y position based on your layout
+	pdf.MultiCell(0, 10, "Prescription: Your prescription text here.", "", "C", false)
 
 	return pdf.OutputFileAndClose(filename)
 }
@@ -239,7 +248,6 @@ func UploadXray(db *gorm.DB, c *gin.Context) {
 
 	patientID := c.PostForm("patient_id")
 	doctorID := c.PostForm("doctor_id")
-	prescription := c.PostForm("prescription")
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to retrieve file from request", "details": err.Error()})
@@ -260,8 +268,8 @@ func UploadXray(db *gorm.DB, c *gin.Context) {
 
 	// Save original x-ray as PDF
 	go func() {
-		originalPDFPath := filepath.Join("/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/Project_Grad/htmlandcssandimages", header.Filename+".pdf")
-		if err := createPDF(fileBytes, originalPDFPath, prescription); err != nil {
+		originalPDFPath := filepath.Join("/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/AI_Enabled_Dental_Diagnostic_Tool_project2/Dentify-X/Project_Grad/htmlandcssandimages", header.Filename+".pdf")
+		if err := createPDF(fileBytes, originalPDFPath); err != nil {
 			errChan <- fmt.Errorf("failed to create PDF from original x-ray: %w", err)
 			return
 		}
@@ -278,13 +286,13 @@ func UploadXray(db *gorm.DB, c *gin.Context) {
 		defer os.Remove(tempFilePath)
 
 		yoloCmd := "/Users/mamdouhhazem/opt/anaconda3/envs/dentex/bin/yolo"
-		cmd := exec.Command(yoloCmd, "predict", "model=/Users/mamdouhhazem/Desktop/Graduaiton_Project/runs_results/newDatasetV8M/weights/best.pt", "source="+tempFilePath)
+		cmd := exec.Command(yoloCmd, "predict", "model=/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/runs_results/newDatasetV8M/weights/best.pt", "source="+tempFilePath)
 		if err := cmd.Run(); err != nil {
 			errChan <- fmt.Errorf("failed to perform inference: %w", err)
 			return
 		}
 
-		runsDir := "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/cmd/runs/detect"
+		runsDir := "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/AI_Enabled_Dental_Diagnostic_Tool_project2/Dentify-X/cmd/runs/detect"
 		latestPredictFolder, err := findLatestPredictFolder(runsDir)
 		if err != nil {
 			errChan <- fmt.Errorf("failed to find latest predict folder: %w", err)
@@ -298,8 +306,8 @@ func UploadXray(db *gorm.DB, c *gin.Context) {
 			return
 		}
 
-		predictedPDFPath := filepath.Join("/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/Project_Grad/htmlandcssandimages", header.Filename+".predicted.pdf")
-		if err := createPDF(predictedFileBytes, predictedPDFPath, prescription); err != nil {
+		predictedPDFPath := filepath.Join("/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/AI_Enabled_Dental_Diagnostic_Tool_project2/Dentify-X/Project_Grad/htmlandcssandimages", header.Filename+".predicted.pdf")
+		if err := createPDF(predictedFileBytes, predictedPDFPath); err != nil {
 			errChan <- fmt.Errorf("failed to create PDF from predicted x-ray: %w", err)
 			return
 		}
@@ -391,7 +399,7 @@ func CreatePrescriptionPDF(c *gin.Context, db *gorm.DB) {
 	pdf.Ln(10)
 
 	// Save the prescription PDF file directly
-	filepath := "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/Project_Grad/htmlandcssandimages/" + filename
+	filepath := "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/AI_Enabled_Dental_Diagnostic_Tool_project2/Dentify-X/Project_Grad/htmlandcssandimages/" + filename
 	if err := pdf.OutputFileAndClose(filepath); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save prescription PDF", "details": err.Error()})
 		return
@@ -441,7 +449,7 @@ func findLatestPredictFolder(runsDir string) (string, error) {
 
 // Handler to serve the latest predicted image
 func ServeLatestPredictedImage(c *gin.Context) {
-	runsDir := "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/Dentify-X/cmd/runs/detect"
+	runsDir := "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/AI_Enabled_Dental_Diagnostic_Tool_project2/Dentify-X/cmd/runs/detect"
 	latestPredictFolder, err := findLatestPredictFolder(runsDir)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to find latest predict folder", "details": err.Error()})
@@ -510,17 +518,17 @@ func ServeLatestPredictedImage(c *gin.Context) {
 // }
 
 // Function to append prescription text to PDF content
-func appendPrescriptionToPDF(pdfBytes []byte, prescription string) []byte {
-	// Example implementation: appending prescription text to the end of PDF
-	// This is a simplistic example and may need adjustment based on your PDF structure
+// func appendPrescriptionToPDF(pdfBytes []byte, prescription string) []byte {
+// 	// Example implementation: appending prescription text to the end of PDF
+// 	// This is a simplistic example and may need adjustment based on your PDF structure
 
-	pdfStr := string(pdfBytes)
+// 	pdfStr := string(pdfBytes)
 
-	// Append prescription text at the end of the PDF content
-	updatedPDFStr := pdfStr + fmt.Sprintf("\nPrescription: %s\n", prescription)
+// 	// Append prescription text at the end of the PDF content
+// 	updatedPDFStr := pdfStr + fmt.Sprintf("\nPrescription: %s\n", prescription)
 
-	return []byte(updatedPDFStr)
-}
+// 	return []byte(updatedPDFStr)
+// }
 
 // func UploadXray(db *gorm.DB, c *gin.Context) {
 // 	// Parse form data

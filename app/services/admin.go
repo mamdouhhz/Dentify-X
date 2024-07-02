@@ -44,6 +44,9 @@ func AdminLogin(db *gorm.DB, c *gin.Context) error {
 	c.JSON(http.StatusOK, gin.H{
 		"welcome":   existingAdmin.A_Name,
 		"sessionid": session.Get("aid"),
+		"email":     existingAdmin.A_Email,
+		"password":  existingAdmin.A_password,
+		"phone":     existingAdmin.A_PhoneNumber,
 	})
 	return nil
 }

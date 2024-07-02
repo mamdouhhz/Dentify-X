@@ -21,13 +21,13 @@ func Rout(db *gorm.DB) *gin.Engine {
 	r.Use(gin.Recovery(), middlewares.Logger(), gindump.Dump())
 
 	config := cors.DefaultConfig()
-	// config.AllowOrigins = []string{"http://localhost:3000", "http://localhost:8000"}
+	config.AllowOrigins = []string{"https://localhost/files"}
 	config.AllowMethods = []string{"GET", "POST"}
-	config.AllowAllOrigins = true
+	//config.AllowAllOrigins = true
 	r.Use(cors.New(config))
 
 	store := cookie.NewStore([]byte("secret"))
-	store.Options(sessions.Options{MaxAge: 5})
+	store.Options(sessions.Options{MaxAge: 5000})
 	r.Use(sessions.Sessions("mysession", store))
 
 	r.POST("/resetPassConfEmail/:email", func(c *gin.Context) {
@@ -38,8 +38,6 @@ func Rout(db *gorm.DB) *gin.Engine {
 	r.POST("/dsignupreq", func(c *gin.Context) {
 		services.DoctorSignupRequest(db, c)
 	})
-
-	// Apply AuthMiddleware to routes that require authentication
 	r.POST("/dlogin", func(c *gin.Context) {
 		services.Doctorlogin(db, c)
 	})

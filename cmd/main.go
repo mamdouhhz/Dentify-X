@@ -4,6 +4,7 @@ import (
 	"Dentify-X/app/models"
 	"Dentify-X/app/routers"
 	"fmt"
+	"log"
 )
 
 func main() {
@@ -17,13 +18,12 @@ func main() {
 	r := routers.Rout(db)
 
 	// Serve static files from the specified directory
-	r.Static("/files", "http://localhost:8000")
+	r.Static("/files", "/Users/mamdouhhazem/Desktop/Graduaiton_Project/Project_II/AI_Enabled_Dental_Diagnostic_Tool_project2/Dentify-X/Project_Grad/htmlandcssandimages")
 
-	// openssl ecparam -name prime256v1 -genkey -noout -out server.key
-	// openssl req -x509 -new -key server.key -out server.crt -days 365
-	// err = http.ListenAndServeTLS(":443", "server.crt", "server.key", r)
-	// if err != nil {
-	// 	log.Fatal("Error running server:", err)
-	// }
-	r.Run()
+	// Run the HTTPS server
+	// openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt -config localhost.cnf
+	err = r.RunTLS(":443", "server.crt", "server.key")
+	if err != nil {
+		log.Fatal("Error running server:", err)
+	}
 }

@@ -29,7 +29,7 @@ func PatientWelcomeEmail(email string, name string, pass string, c *gin.Context)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": errorMsg})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
+	//c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
 }
 
 func DoctorWelcomeEmail(email string, name string, c *gin.Context) {
@@ -51,7 +51,7 @@ func DoctorWelcomeEmail(email string, name string, c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": errorMsg})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
+	//c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
 }
 
 func PendingDoctorEmail(email string, name string, c *gin.Context) {
@@ -73,7 +73,7 @@ func PendingDoctorEmail(email string, name string, c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": errorMsg})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
+	//c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
 }
 
 func DoctorAcceptanceEmail(email string, name string, c *gin.Context) {

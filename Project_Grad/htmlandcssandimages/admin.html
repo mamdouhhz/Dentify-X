@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="http://localhost:8000/admin3.css">
+        <link rel="stylesheet" href="https://localhost/files/admin3.css">
         <title>Dentify-X</title>
 
     </head>
@@ -12,16 +12,16 @@
     <body>
         <div id="container">
             <div id="left-div">
-                <img id="profile-pic" src="http://localhost:8000/Image 07-05-2024 at 12.17 AM.jpg" alt="Profile Picture">
+                <img id="profile-pic" src="https://localhost/files/Image 07-05-2024 at 12.17 AM.jpg" alt="Profile Picture">
                 <div class="admin-greeting"><h4>Welcome Admin</h4> <h4 class="admin-greeting" id="welcome-message"></h4> </div>
                 
                 <!-- <h1 id="admin-name"></h1> -->
                  <!-- <button id="logout-btn2">Settings</button> -->
-                <form action="../html/profileA.html" method="GET" style="margin: 0; padding: 0;">
-                    <button id="logout-btn2">Profile</button>
+                <form action="https://localhost/files/profileA.html" method="GET" style="margin: 0; padding: 0;">
+                    <button id="logout-btn2" style="display: none;">Profile</button>
                 </form>
                
-                <form action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
+                <form action="https://localhost/files/welcome.html" method="GET" style="margin: 0; padding: 0;">
                     <button id="logout-btn3">Log Out</button>
                 </form>
             </div>
@@ -29,15 +29,15 @@
         <div id="ldiv">
             <div id="right-div">
                 <div class="button-wrapper">
-                    <img class="button-image" src="http://localhost:8000/Image 06-05-2024 at 11.14 PM (1).jpg" alt="Button Image 1" style="width: 200px;height: 200px;">
+                    <img class="button-image" src="https://localhost/files/Image 06-05-2024 at 11.14 PM (1).jpg" alt="Button Image 1" style="width: 200px;height: 200px;">
                     <button class="action-btn" type="submit" id="requests">View Doctor Requests</button>
                 </div>
                 <div class="button-wrapper">
-                    <img class="button-image" src="http://localhost:8000/Image 06-05-2024 at 11.14 PM.jpg" alt="Button Image 2"  style="width: 200px;height: 200px;">
+                    <img class="button-image" src="https://localhost/files/Image 06-05-2024 at 11.14 PM.jpg" alt="Button Image 2"  style="width: 200px;height: 200px;">
                     <button class="action-btn" type="submit" id="doctors">View Doctors</button>
                 </div>
                 <div class="button-wrapper">
-                    <img class="button-image" src="http://localhost:8000/Image 06-05-2024 at 11.15 PM.jpg" alt="View Requests Image"  style="width: 200px;height: 200px;">
+                    <img class="button-image" src="https://localhost/files/Image 06-05-2024 at 11.15 PM.jpg" alt="View Requests Image"  style="width: 200px;height: 200px;">
                     <button class="action-btn" type="submit" id="patients">View Patients</button>
                 </div>
             </div>
@@ -45,8 +45,9 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const urlParams = new URLSearchParams(window.location.search);
-                const welcomeMessage = urlParams.get('welcome');
-                const sessionId = urlParams.get('sessionid');
+                // Retrieve data from local storage
+                const sessionId = localStorage.getItem('asessionid');
+                const welcomeMessage = localStorage.getItem('awelcome'); 
     
                 if (welcomeMessage) {
                     const welcomeElement = document.getElementById('welcome-message');
@@ -56,7 +57,7 @@
                 const Button = document.getElementById('requests');
                 Button.addEventListener('click', () => {
                     if (sessionId) {
-                        window.location.href = `http://localhost:8000/doctorrequests.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                        window.location.href = `https://localhost/files/doctorrequests.html`;
                     } else {
                         console.error('Session ID not found in URL parameters');
                     }
@@ -65,7 +66,7 @@
                 const loginButton = document.getElementById('doctors');
                 loginButton.addEventListener('click', () => {
                     if (sessionId) {
-                        window.location.href = `http://localhost:8000/viewdoctor.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                        window.location.href = `https://localhost/files/viewdoctor.html`;
                     } else {
                         console.error('Session ID not found in URL parameters');
                     }
@@ -74,7 +75,7 @@
                 const buttonn = document.getElementById('patients');
                 buttonn.addEventListener('click', () => {
                     if (sessionId) {
-                        window.location.href = `http://localhost:8000/viewpatient.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                        window.location.href = `https://localhost/files/viewpatient.html`;
                     } else {
                         console.error('Session ID not found in URL parameters');
                     }

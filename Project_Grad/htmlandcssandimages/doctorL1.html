@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="http://localhost:8000/doctorL3.css">
+    <link rel="stylesheet" type="text/css" href="https://localhost/files/doctorL3.css">
     <title>Dentify-X</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body style="background-image: url(http://localhost:8000/Snapseed.jpg);    background-size: cover;
-background-position: repeat;
-background-repeat: no-repeat; background-position-y: 18%;">
+<body style="background-image: url(https://localhost/files/Snapseed.jpg); background-size: cover; background-position: repeat; background-repeat: no-repeat; background-position-y: 18%;">
     <div id="container">
         <!-- Back button icon -->
-        <a href="http://localhost:8000/welcome.html" class="back-button">
+        <a href="https://localhost/files/welcome.html" class="back-button">
             <i class="fas fa-chevron-left"></i>
         </a>
         
         <div id="left-side">
             <h1 class="doctor" style="color: #07364e;">Doctor</h1>
-            <img class="button-image" src="http://localhost:8000/man_14734170.png" alt="Admin">
+            <img class="button-image" src="https://localhost/files/man_14734170.png" alt="Admin">
         </div>
         <div id="right-side">
             <div class="form-container" id="formContainer">
@@ -27,7 +25,6 @@ background-repeat: no-repeat; background-position-y: 18%;">
                     <button id="signupToggle" onclick="toggleForm('signup')">Sign up</button>
                 </div>
 
-                
                 <form id="loginForm">
                     <p id="errmessage" style="color:red;"></p>
                     <div class="form-group">
@@ -38,7 +35,7 @@ background-repeat: no-repeat; background-position-y: 18%;">
                         <label for="loginPassword">Password</label>
                         <div class="input-group">
                             <input type="password" class="form-control password-input" id="loginpassword" name="loginPassword" required>
-                            <span class="password-toggle" onclick="togglePassword('D_Password', this)">
+                            <span class="password-toggle" onclick="togglePassword('loginpassword', this)">
                                 <i class="fas fa-eye-slash"></i>
                             </span>
                         </div>
@@ -47,24 +44,30 @@ background-repeat: no-repeat; background-position-y: 18%;">
                 </form>
 
                 <form id="signupForm" style="display: none;">
+                    <p id="serrmessage"  style="display: none; /* Initially hide the error message */
+                    position: fixed;
+                    top: 50%; /* Center vertically */
+                    left: 49%; /* Center horizontally */
+                    transform: translate(-50%, -50%);
+                    background-color: #f8d7da; /* Red color for error message */
+                    color: red; /* Dark text color */
+                    border: 1px solid #f5c6cb; /* Lighter red border */
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+                    z-index: 9999; /* Ensure it's on top of everything */"></p>
                     <div class="form-group">
                         <label for="signupName">Full Name</label>
                         <input type="text" class="form-control" id="signupName" name="signupName" required>
                     </div>
-
-
                     <div class="form-group">
                         <label for="signupEmail">Email address</label>
-                        <input type="text" class="form-control" id="signupEmail" name="signupEmail" required>
+                        <input type="email" class="form-control" id="signupEmail" name="signupEmail" required>
                     </div>
-
-
                     <div class="form-group">
                         <label for="signupMLN">MLN</label>
                         <input type="text" class="form-control" id="signupMLN" name="signupMLN" required>
                     </div>
-
-                    
                     <div class="form-group">
                         <label for="signupPassword">Password</label>
                         <div class="input-group">
@@ -81,129 +84,175 @@ background-repeat: no-repeat; background-position-y: 18%;">
                     <div class="form-group gender-container">
                         <label>Gender</label>
                         <label>
-                            <input type="radio" name="gender" value="male" id="gender" required>
+                            <input type="radio" name="gender" value="male" required>
                             <span></span>
                             Male
                         </label>
                         <label>
-                            <input type="radio" name="gender" value="female" id="gender" required>
+                            <input type="radio" name="gender" value="female" required>
                             <span></span>
                             Female
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Sign up</button>
-                    <p id="errmessage" style="color: red;"></p>
                 </form>
             </div>
         </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Function to display error message if present
-            const displayErrorMessage = () => {
-                var errorMessage = document.getElementById('errmessage');
-                // Check if error message exists and is not empty
-                if (errorMessage.innerText.trim() !== '') {
-                    // Display the error message box
-                    errorMessage.style.display = 'block';
-    
-                    // Close the error message box after 5 seconds (adjust as needed)
-                    setTimeout(function() {
-                        errorMessage.style.display = 'none';
-                    }, 5000); // 5000 milliseconds = 5 seconds
-                }
-            };
-    
-            // Call displayErrorMessage when DOM content is loaded
-            displayErrorMessage();
-    
-            // Login form submission
-            const loginform = document.getElementById('loginForm');
-    
-            loginform.addEventListener('submit', (e) => {
-                e.preventDefault();
-    
-                const email = document.getElementById('loginemail').value;
-                const password = document.getElementById('loginpassword').value;
-    
-                const loginUrl = "http://localhost:8080/dlogin";
-    
-                fetch(loginUrl, {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password,
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.error) {
-                        const errormessage = document.getElementById('errmessage');
-                        errormessage.textContent = decodeURIComponent(data.error);
-                        displayErrorMessage(); // Display error message
-                    } else if (data.welcome) {
-                        const welcomeMessage = decodeURIComponent(data.welcome);
-                        window.location.href = `http://localhost:8000/Doctor.html?welcome=${welcomeMessage}&sessionid=${data.sessionid}`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            });
-    
-            // Signup form submission
-            const signupform = document.getElementById('signupForm');
-    
-            signupform.addEventListener('submit', (e) => {
-                e.preventDefault();
-    
-                const name = document.getElementById('signupName').value;
-                const phone = document.getElementById('signupPhone').value;
-                const userpassword = document.getElementById('signupPassword').value;
-                const mln = document.getElementById('signupMLN').value;
-                const gender = document.getElementById('gender').value;
-                const userEmail = document.getElementById('signupEmail').value; // Change variable name
-    
-                const signupURL = "http://localhost:8080/dsignupreq";
-    
-                fetch(signupURL, {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        phone_number: phone,
-                        password: userpassword,
-                        mln: mln,
-                        gender: gender,
-                        email: userEmail, // Use the variable userEmail here
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.error) {
-                        const errormessage = document.getElementById('errmessage');
-                        errormessage.textContent = decodeURIComponent(data.error);
-                        displayErrorMessage(); // Display error message
-                    } else if (data.message) {
-                        const welcomeMessage = decodeURIComponent(data.message);
-                        window.location.href = `http://localhost:8000/doctorL.html`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            });
+    console.log('DOM fully loaded and parsed');
+
+    // Function to display login error message if present
+    const displayErrorMessage = () => {
+        var errorMessage = document.getElementById('errmessage');
+        if (errorMessage.innerText.trim() !== '') {
+            errorMessage.style.display = 'block';
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    };
+
+    // Function to display signup error message if present
+    const ddisplayErrorMessage = (message) => {
+        var errorMessage = document.getElementById('serrmessage');
+        errorMessage.textContent = message;
+        if (errorMessage.innerText.trim() !== '') {
+            errorMessage.style.display = 'block';
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    };
+
+    // Call displayErrorMessage when DOM content is loaded
+    displayErrorMessage();
+
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('loginemail').value;
+        const password = document.getElementById('loginpassword').value;
+
+        console.log('Login form submitted', { email, password });
+
+        const loginUrl = "https://localhost/dlogin";
+
+        fetch(loginUrl, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.error) {
+                const errormessage = document.getElementById('errmessage');
+                errormessage.textContent = decodeURIComponent(data.error);
+                displayErrorMessage();
+            } else if (data.sessionid && data.welcome) {
+                localStorage.setItem('dsessionid', data.sessionid);
+                localStorage.setItem('dwelcome', data.welcome);
+                localStorage.setItem('demail', data.email);
+                localStorage.setItem('dpassword', data.password);
+                localStorage.setItem('dphone', data.phone);
+                window.location.href = `https://localhost/files/Doctor.html`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+    });
+
+    signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('signupName').value;
+        const phone = document.getElementById('signupPhone').value;
+        const userpassword = document.getElementById('signupPassword').value;
+        const mln = document.getElementById('signupMLN').value;
+        const gender = document.querySelector('input[name="gender"]:checked').value;
+        const userEmail = document.getElementById('signupEmail').value;
+
+        console.log('Signup form submitted', { name, phone, userpassword, gender, userEmail });
+
+        const signupURL = "https://localhost/dsignupreq";
+
+        fetch(signupURL, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: name,
+                phone_number: phone,
+                password: userpassword,
+                mln: mln,
+                gender: gender,
+                email: userEmail,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.error) {
+                ddisplayErrorMessage(decodeURIComponent(data.error));
+            } else if (data.message) {
+                const welcomeMessage = decodeURIComponent(data.message);
+                ddisplayErrorMessage(welcomeMessage);
+                // Optionally redirect here
+                // window.location.href = `https://localhost/files/doctorL.html`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+// Function to toggle between login and signup forms
+function toggleForm(form) {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const loginToggle = document.getElementById('loginToggle');
+    const signupToggle = document.getElementById('signupToggle');
+
+    if (form === 'login') {
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        loginToggle.classList.add('active');
+        signupToggle.classList.remove('active');
+    } else if (form === 'signup') {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        loginToggle.classList.remove('active');
+        signupToggle.classList.add('active');
+    }
+}
+
+// Function to toggle password visibility
+function togglePassword(inputId, eyeIcon) {
+    const inputField = document.getElementById(inputId);
+    eyeIcon.classList.toggle('active');
+
+    if (inputField.type === 'password') {
+        inputField.type = 'text';
+    } else {
+        inputField.type = 'password';
+    }
+}
     </script>    
-    <script src="http://localhost:8000/doctorL.js"></script>
+    <script src="https://localhost/files/doctorL.js"></script>
 </body>
 </html>

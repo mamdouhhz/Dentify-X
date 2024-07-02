@@ -222,3 +222,33 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
     z-index: 9999; /* Ensure it's on top of everything */
 }
+
+#serrmessage{
+    display: none; /* Initially hide the error message */
+    position: fixed;
+    top: 50%; /* Center vertically */
+    left: 49%; /* Center horizontally */
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da; /* Red color for error message */
+    color: #721c24; /* Dark text color */
+    border: 1px solid #f5c6cb; /* Lighter red border */
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+    z-index: 9999; /* Ensure it's on top of everything */
+}
+
+#sserrmessage{
+    display: none; /* Initially hide the error message */
+    position: fixed;
+    top: 50%; /* Center vertically */
+    left: 49%; /* Center horizontally */
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da; /* Red color for error message */
+    color: #721c24; /* Dark text color */
+    border: 1px solid #f5c6cb; /* Lighter red border */
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+    z-index: 9999; /* Ensure it's on top of everything */
+}

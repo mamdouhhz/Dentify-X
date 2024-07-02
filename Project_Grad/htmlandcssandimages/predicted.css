@@ -97,3 +97,15 @@ h2 {
 .action-input::placeholder {
     color: #999999;
 }
+
+/* Add custom styles for the table */
+.prediction-table {
+    border-collapse: collapse;
+    width: 200px; /* Adjust width as needed */
+    margin-top: 20px;
+}
+.prediction-table th, .prediction-table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}

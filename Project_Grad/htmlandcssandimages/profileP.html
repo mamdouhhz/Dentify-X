@@ -4,35 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
-    <link rel="stylesheet" href="http://localhost:8000/profile.css">
+    <link rel="stylesheet" href="https://localhost/files/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
+<body style="background-image: url(https://localhost/files/Snapseed.jpg);    background-size: cover;
+background-position: repeat;
+background-repeat: no-repeat; background-position-y: 18%;">
     <div class="profile-container">
         <div class="profile-header">
-            <img src="http://localhost:8000/patient_3034851.png" alt="Profile Image" class="profile-img">
-            <h1 id="name">Name from Database</h1>
+            <img src="https://localhost/files/patient_3034851.png" alt="Profile Image" class="profile-img">
+            <h1 id="name"></h1>
         </div>
         <div class="profile-details">
-            <a href="http://localhost:8000/patient.html" class="back-button">
+            <a href="https://localhost/files/patient.html" class="back-button">
                 <i class="fas fa-chevron-left"></i>
             </a>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="email@example.com" style="border: none;" readonly>
+            <input type="email" id="email" style="border: none;" readonly>
 
             <label for="password">Password:</label>
             <div class="password-container">
-                <input type="password" id="password" name="password" value="password123" style="border: none;" readonly>
+                <input type="password" id="password" style="border: none;" readonly>
+                <button type="button" id="togglePassword" class="toggle-password-btn">
+                    <i class="fas fa-eye-slash"></i>
+                </button>
+            </div>
+
+            <label for="passcode">Passcode:</label>
+            <div class="password-container">
+                <input type="password" id="passcode" style="border: none;" readonly>
                 <button type="button" id="togglePassword" class="toggle-password-btn">
                     <i class="fas fa-eye-slash"></i>
                 </button>
             </div>
             
             <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" value="123-456-7890" style="border: none;" readonly>
+            <input type="tel" id="phone" style="border: none;" readonly>
         </div>
     </div>
-    <script src="http://localhost:8000/profile.js"></script>
+    <script src="https://localhost/files/profile.js"></script>
     <script>
         document.getElementById('togglePassword').addEventListener('click', function (e) {
             const passwordInput = document.getElementById('password');
@@ -47,6 +57,12 @@
                 passwordIcon.classList.add('fa-eye');
             }
         });
+        
+        document.getElementById('name').innerText = localStorage.getItem('pwelcome');
+        document.getElementById('email').value = localStorage.getItem('pemail');
+        document.getElementById('password').value = localStorage.getItem('ppassword');
+        document.getElementById('passcode').value = localStorage.getItem('ppasscode');
+        document.getElementById('phone').value = localStorage.getItem('pphone');
     </script>
 </body>
 </html>

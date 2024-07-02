@@ -44,7 +44,7 @@ func PatientSignup(db *gorm.DB, c *gin.Context) error {
 		return err
 	}
 	email.PatientWelcomeEmail(user.P_Email, user.P_Name, user.Passcode, c)
-	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "check your email"})
 	return nil
 }
 
@@ -85,8 +85,13 @@ func PatientLogin(db *gorm.DB, c *gin.Context) error {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return err
 	}
-	c.JSON(http.StatusOK, gin.H{"welcome": existingUser.P_Name,
+	c.JSON(http.StatusOK, gin.H{
+		"welcome":   existingUser.P_Name,
 		"sessionid": session.Get("pid"),
+		"email":     existingUser.P_Email,
+		"password":  existingUser.P_Password,
+		"passcode":  existingUser.Passcode,
+		"phone":     existingUser.P_PhoneNumber,
 	})
 	return nil
 }

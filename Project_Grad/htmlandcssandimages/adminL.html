@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/adminL3.css">
+    <link rel="stylesheet" href="https://localhost/files/adminL3.css">
     <title>Dentify-X</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
+<body style="background-image: url(https://localhost/files/Snapseed.jpg);    background-size: cover;
+background-position: repeat;
+background-repeat: no-repeat; background-position-y: 18%;">
     <div id="container">
         <!-- Back button icon -->
-        <a href="http://localhost:8000/welcome.html" class="back-button">
+        <a href="https://localhost/files/welcome.html" class="back-button">
             <i class="fas fa-chevron-left"></i>
         </a>
         <div id="left-side">
             <h1 class="admin">Admin</h1>
-            <img class="button-image" src="http://localhost:8000/manager_3281355.png" alt="Admin">
+            <img class="button-image" src="https://localhost/files/manager_3281355.png" alt="Admin">
         </div>
         <div id="right-side">
             <div class="form-container" id="formContainer">
@@ -49,66 +51,66 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded and parsed');
+        console.log('DOM fully loaded and parsed');
 
-            // Function to display error message if present
-            const displayErrorMessage = () => {
-                var errorMessage = document.getElementById('errmessage');
-                // Check if error message exists and is not empty
-                if (errorMessage.innerText.trim() !== '') {
-                    // Display the error message box
-                    errorMessage.style.display = 'block';
-    
-                    // Close the error message box after 5 seconds (adjust as needed)
-                    setTimeout(function() {
-                        errorMessage.style.display = 'none';
-                    }, 5000); // 5000 milliseconds = 5 seconds
-                }
-            };
-    
-            // Call displayErrorMessage when DOM content is loaded
-            displayErrorMessage();
+        const displayErrorMessage = () => {
+            var errorMessage = document.getElementById('errmessage');
+            if (errorMessage.innerText.trim() !== '') {
+                errorMessage.style.display = 'block';
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+        };
 
-            const loginForm = document.getElementById('loginForm');
+        displayErrorMessage();
 
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const email = document.getElementById('A_Email').value;
-                const password = document.getElementById('A_password').value;
+    const loginForm = document.getElementById('loginForm');
 
-                console.log('Login form submitted', { email, password });
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-                const loginUrl = "http://localhost:8080/alogin";
+        const email = document.getElementById('A_Email').value;
+        const password = document.getElementById('A_password').value;
 
-                fetch(loginUrl, {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json, text/plain, */*",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password,
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.error) {
-                        const errormessage = document.getElementById('errmessage');
-                        errormessage.textContent = decodeURIComponent(data.error);
-                        displayErrorMessage();
-                    } else if (data.welcome) {
-                        //const welcomeMessage = decodeURIComponent(data.welcome);
-                        window.location.href = `http://localhost:8000/admin.html?welcome=${data.welcome}&sessionid=${data.sessionid}`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            });
+        console.log('Login form submitted', { email, password });
+
+        const loginUrl = "https://localhost/alogin";
+
+        fetch(loginUrl, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.error) {
+                const errormessage = document.getElementById('errmessage');
+                errormessage.textContent = decodeURIComponent(data.error);
+                displayErrorMessage();
+            } else if (data.sessionid && data.welcome) {
+                // Store data in local storage
+                localStorage.setItem('asessionid', data.sessionid);
+                localStorage.setItem('awelcome', data.welcome);
+                localStorage.setItem('aemail', data.email);
+                localStorage.setItem('apassword', data.password);
+                localStorage.setItem('aphone', data.phone);
+                window.location.href = `https://localhost/files/admin.html`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+    });
+});
+
     </script>
     <!-- <script src="http://localhost:8000/adminL.js"></script> -->
 </body>

@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/patient5.css">
+    <link rel="stylesheet" href="https://localhost/files/patient5.css">
     <title>Dentify-X</title>
 </head>
 <body>
     <div id="container">
         <div id="left-div">
-            <img id="profile-pic" src="http://localhost:8000/patient_3034851.png" alt="Profile Picture">
+            <img id="profile-pic" src="https://localhost/files/patient_3034851.png" alt="Profile Picture">
             <h4 class="admin-greeting">Welcome <h4 class="admin-greeting" id="welcome-message"></h4></h4>
             
-            <form action="http://localhost:8000/profileP.html" method="GET">
-                <button id="logout-btn2">Profile</button>
+            <form action="https://localhost/files/profileP.html" method="GET">
+                <button id="logout-btn2" style="display: none;">Profile</button>
             </form>
             <!-- <button id="logout-btn2">Settings</button> -->
-            <form action="http://localhost:8000/welcome.html" method="GET">
+            <form action="https://localhost/files/welcome.html" method="GET">
                 <button id="logout-btn3">Log Out</button>
             </form>
         </div>
@@ -46,16 +46,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const welcome = urlParams.get('welcome');
-            const patient_id = urlParams.get('sessionid');
+            // Retrieve data from local storage
+            const patient_id = localStorage.getItem('psessionid');
+            const welcome = localStorage.getItem('pwelcome'); 
 
             if (welcome) {
                 const welcomeElement = document.getElementById('welcome-message');
                 welcomeElement.textContent = decodeURIComponent(welcome);
             }
 
-            fetch(`http://localhost:8080/medicalhistory?patient_id=${patient_id}`)
+            fetch(`https://localhost/medicalhistory?patient_id=${patient_id}`)
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.querySelector('#doctorTable tbody');
@@ -187,7 +187,7 @@ document.body.appendChild(predictedXrayLink);
                 console.log(filename);
                 
                 // Construct the localhost URL
-                var localhostURL = 'http://localhost:8000/' + filename;
+                var localhostURL = 'https://localhost/files/' + filename;
                 
                 // Redirect to the constructed URL
                 console.log('Redirect URL:', localhostURL);

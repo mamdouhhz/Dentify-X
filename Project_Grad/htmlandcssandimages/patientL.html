@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:8000/patientL3.css">
+    <link rel="stylesheet" href="https://localhost/files/patientL3.css">
     <title>Dentify-X</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body style="background-image: url(http://localhost:8000/Snapseed.jpg);    background-size: cover;
+<body style="background-image: url(https://localhost/files/Snapseed.jpg);    background-size: cover;
 background-position: repeat;
 background-repeat: no-repeat; background-position-y: 18%;">
     <div id="container">
         <!-- Back button icon -->
-        <a href="welcome.html" class="back-button">
+        <a href="https://localhost/files/welcome.html" class="back-button">
             <i class="fas fa-chevron-left"></i>
         </a>
         
         <div id="left-side">
             <h1 class="patient" style="color: #07364e;">Patient</h1>
-            <img class="button-image" src="http://localhost:8000/patient_3034851.png" alt="Admin">
+            <img class="button-image" src="https://localhost/files/patient_3034851.png" alt="Admin">
         </div>
         <div id="right-side">
             <div class="form-container" id="formContainer">
@@ -41,6 +41,30 @@ background-repeat: no-repeat; background-position-y: 18%;">
                 </form>
 
                 <form id="signupForm" style="display: none;">
+                    <p id="serrmessage" style="display: none; /* Initially hide the error message */
+                    position: fixed;
+                    top: 50%; /* Center vertically */
+                    left: 49%; /* Center horizontally */
+                    transform: translate(-50%, -50%);
+                    background-color: #f8d7da; /* Red color for error message */
+                    color: red; /* Dark text color */
+                    border: 1px solid #f5c6cb; /* Lighter red border */
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+                    z-index: 9999; /* Ensure it's on top of everything */"></p>
+                    <p id="sserrmessage" style=" display: none; /* Initially hide the error message */
+                    position: fixed;
+                    top: 50%; /* Center vertically */
+                    left: 49%; /* Center horizontally */
+                    transform: translate(-50%, -50%);
+                    background-color: #f8d7da; /* Red color for error message */
+                    color: red; /* Dark text color */
+                    border: 1px solid #f5c6cb; /* Lighter red border */
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+                    z-index: 9999; /* Ensure it's on top of everything */"></p>
                     <div class="form-group">
                         <label for="signupName">Full Name</label>
                         <input type="text" class="form-control" name="signupName" id="signupName" required>
@@ -86,41 +110,51 @@ background-repeat: no-repeat; background-position-y: 18%;">
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM fully loaded and parsed');
-            // Function to display error message if present
+    
+            // Function to display login error message if present
             const displayErrorMessage = () => {
                 var errorMessage = document.getElementById('errmessage');
-                // Check if error message exists and is not empty
                 if (errorMessage.innerText.trim() !== '') {
-                    // Display the error message box
                     errorMessage.style.display = 'block';
-    
-                    // Close the error message box after 5 seconds (adjust as needed)
                     setTimeout(function() {
                         errorMessage.style.display = 'none';
-                    }, 5000); // 5000 milliseconds = 5 seconds
+                    }, 5000);
+                }
+            };
+    
+            // Function to display signup error message if present
+            const ddisplayErrorMessage = (message) => {
+                var errorMessage = document.getElementById('serrmessage');
+                errorMessage.textContent = message;
+                if (errorMessage.innerText.trim() !== '') {
+                    errorMessage.style.display = 'block';
+                    setTimeout(function() {
+                        errorMessage.style.display = 'none';
+                    }, 5000);
                 }
             };
     
             // Call displayErrorMessage when DOM content is loaded
             displayErrorMessage();
-
+            ddisplayErrorMessage('');
+    
             const loginForm = document.getElementById('loginForm');
             const signupForm = document.getElementById('signupForm');
-
+    
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const email = document.getElementById('loginEmail').value;
                 const password = document.getElementById('loginPassword').value;
-
+    
                 console.log('Login form submitted', { email, password });
-
-                const loginUrl = "http://localhost:8080/plogin";
-
+    
+                const loginUrl = "https://localhost/plogin";
+    
                 fetch(loginUrl, {
                     method: "POST",
                     headers: {
-                        "Accept": "application/json, text/plain, */*",
+                        "Accept": "application/json, text/plain, /",
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
@@ -135,16 +169,21 @@ background-repeat: no-repeat; background-position-y: 18%;">
                         const errormessage = document.getElementById('errmessage');
                         errormessage.textContent = decodeURIComponent(data.error);
                         displayErrorMessage();
-                    } else if (data.welcome) {
-                        //const welcomeMessage = decodeURIComponent(data.welcome);
-                        window.location.href = `http://localhost:8000/patient.html?welcome=${data.welcome}&sessionid=${data.sessionid}`;
+                    } else if (data.sessionid && data.welcome) {
+                        localStorage.setItem('psessionid', data.sessionid);
+                        localStorage.setItem('pwelcome', data.welcome);
+                        localStorage.setItem('pemail', data.email);
+                        localStorage.setItem('ppassword', data.password);
+                        localStorage.setItem('ppasscode', data.passcode);
+                        localStorage.setItem('pphone', data.phone);
+                        window.location.href = "https://localhost/files/patient.html";
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
             });
-
+    
             signupForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
@@ -153,15 +192,15 @@ background-repeat: no-repeat; background-position-y: 18%;">
                 const userpassword = document.getElementById('signupPassword').value;
                 const gender = document.querySelector('input[name="gender"]:checked').value;
                 const userEmail = document.getElementById('signupEmail').value;
-
+    
                 console.log('Signup form submitted', { name, phone, userpassword, gender, userEmail });
-
-                const signupURL = "http://localhost:8080/psignup";
-
+    
+                const signupURL = "https://localhost/psignup";
+    
                 fetch(signupURL, {
                     method: "POST",
                     headers: {
-                        "Accept": "application/json, text/plain, */*",
+                        "Accept": "application/json, text/plain, /",
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
@@ -176,12 +215,12 @@ background-repeat: no-repeat; background-position-y: 18%;">
                 .then(data => {
                     console.log(data);
                     if (data.error) {
-                        const errormessage = document.getElementById('errmessage');
-                        errormessage.textContent = decodeURIComponent(data.error);
-                        displayErrorMessage();
+                        ddisplayErrorMessage(decodeURIComponent(data.error));
                     } else if (data.message) {
                         const welcomeMessage = decodeURIComponent(data.message);
-                        window.location.href = `http://localhost:8000/welcome.html`;
+                        ddisplayErrorMessage(welcomeMessage);
+                        // Optionally redirect here
+                        // window.location.href = ⁠ https://localhost/files/welcome.html ⁠;
                     }
                 })
                 .catch(error => {
@@ -190,6 +229,6 @@ background-repeat: no-repeat; background-position-y: 18%;">
             });
         });
     </script>
-    <script src="http://localhost:8000/patientL.js"></script>
+    <script src="https://localhost/files/patientL.js"></script>
 </body>
 </html>

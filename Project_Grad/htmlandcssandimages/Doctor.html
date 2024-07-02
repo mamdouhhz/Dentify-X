@@ -3,30 +3,33 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="http://localhost:8000/doctor22.css">
+        <link rel="stylesheet" href="https://localhost/files/doctor22.css">
         <title>Dentify-X</title>
     </head>
 
     <body>
         <div id="container">
             <div id="left-div">
-                <img id="profile-pic" src="http://localhost:8000/doctor.jpg" alt="Profile Picture">
+                <img id="profile-pic" src="https://localhost/files/doctor.jpg" alt="Profile Picture">
                 <h4 class="admin-greeting">Welcome Dr/ <h4 class="admin-greeting" id="welcome-message"></h4></h4>
                 
-                <button id="logout-btn2">Profile</button>
+                <form action="https://localhost/files/profile.html" method="GET">
+                    <button id="logout-btn2" style="display: none;">Profile</button>
+                </form>
                 <!-- <button id="logout-btn2">Settings</button> -->
-                <form  action="http://localhost:8000/welcome.html" method="GET" style="margin: 0; padding: 0;">
-               <button id="logout-btn3">Log Out</button></form>
+                <form action="https://localhost/files/welcome.html" method="GET" style="margin: 0; padding: 0;">
+                    <button id="logout-btn3">Log Out</button>
+                </form>
             </div>
 
         <div id="ldiv">
             <!-- <div id="right-div"> -->
                 <div class="button-wrapper1">
-                    <img class="button-image" src="http://localhost:8000/exisiting.png" alt="Button Image 1" style="width: 275px;height: 275px;">
+                    <img class="button-image" src="https://localhost/files/exisiting.png" alt="Button Image 1" style="width: 275px;height: 275px;">
                     <button class="action-btn" type="submit" id="existingpatient">Existing Patient</button>
                 </div>
                 <div class="button-wrapper2">
-                    <img class="button-image" src="http://localhost:8000/addpatient.png" alt="Button Image 2"  style="width: 275px;height: 275px;">
+                    <img class="button-image" src="https://localhost/files/addpatient.png" alt="Button Image 2"  style="width: 275px;height: 275px;">
                     <button class="action-btn" type="submit" id="addpatient">Add Patient</button>
                 </div>
             <!-- </div> -->
@@ -34,8 +37,10 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const urlParams = new URLSearchParams(window.location.search);
-                const welcomeMessage = urlParams.get('welcome');
-                const sessionId = urlParams.get('sessionid');
+
+                // Retrieve data from local storage
+                const sessionId = localStorage.getItem('dsessionid');
+                const welcomeMessage = localStorage.getItem('dwelcome');
     
                 if (welcomeMessage) {
                     const welcomeElement = document.getElementById('welcome-message');
@@ -45,7 +50,7 @@
                 const Button = document.getElementById('existingpatient');
                 Button.addEventListener('click', () => {
                     if (sessionId) {
-                        window.location.href = `http://localhost:8000/exisitingpatient.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                        window.location.href = `https://localhost/files/exisitingpatient.html`;
                     } else {
                         console.error('Session ID not found in URL parameters');
                     }
@@ -54,7 +59,7 @@
                 const loginButton = document.getElementById('addpatient');
                 loginButton.addEventListener('click', () => {
                     if (sessionId) {
-                        window.location.href = `http://localhost:8000/addpatientcode.html?sessionid=${sessionId}&name=${welcomeMessage}`;
+                        window.location.href = `https://localhost/files/addpatientcode.html`;
                     } else {
                         console.error('Session ID not found in URL parameters');
                     }
